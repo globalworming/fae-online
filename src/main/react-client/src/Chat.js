@@ -6,13 +6,11 @@ import SockJsClient from "react-stomp";
 
 class Chat extends Component {
   state = {
-    name: 'Bob',
-    messages: [{message: "msg 1" , name: "name1"}],
+    messages: [{sender: "sender" , content: "name1", type: "CHAT"}],
   }
 
 
   componentDidMount() {
-    this.setState({name: "loading"});
   }
 
   addMessage = message =>
@@ -20,34 +18,21 @@ class Chat extends Component {
 
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    const message = { "sender": this.state.name, "content": messageString ,"type": "CHAT"};
+    const message = { "sender": "sender", "content": messageString ,"type": "CHAT"};
     console.log("send", message);
     this.clientRef.sendMessage("/app/chat.sendMessage", JSON.stringify(message));
-    this.addMessage(message)
   }
 
-  onMessageReceive = messageString => {
-   console.log(messageString)
+  onMessageReceive = message => {
+    this.addMessage(message)
   }
 
   render() {
     return (
         <div>
 
-          <SockJsClient url="/ws" topics={["/topic/public"]}
+          <SockJsClient url="http://localhost:8080/ws" topics={["/topic/public"]}
                         onMessage={ this.onMessageReceive } ref={ (client) => { this.clientRef = client }} />
-
-
-          <label htmlFor="name">
-            Name:&nbsp;
-            <input
-                type="text"
-                id={'name'}
-                placeholder={'Enter your name...'}
-                value={this.state.name}
-                onChange={e => this.setState({ name: e.target.value })}
-            />
-          </label>
 
           <ChatInput
               onSubmitMessage={messageString => this.submitMessage(messageString)}
@@ -56,8 +41,8 @@ class Chat extends Component {
           {this.state.messages.map((message, index) =>
               <ChatMessage
                   key={index}
-                  message={message.message}
-                  name={message.name}
+                  message={message.content}
+                  name={message.sender}
               />,
           )}
         </div>
