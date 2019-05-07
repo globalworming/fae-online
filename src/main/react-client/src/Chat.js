@@ -34,7 +34,7 @@ class Chat extends Component {
     return (
         <div>
 
-          <SockJsClient url="http://localhost:8080/ws" topics={["/topic/public"]}
+          <SockJsClient url="/ws" topics={["/topic/public"]}
                         onMessage={ this.onMessageReceive } ref={ (client) => { this.clientRef = client }} />
 
 
