@@ -1,4 +1,4 @@
-package com.example.websocketdemo.model;
+package com.headissue.fate.model;
 
 public class ChatMessage {
   private MessageType type;

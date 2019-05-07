@@ -1,6 +1,6 @@
-package com.example.websocketdemo.controller;
+package com.headissue.fate.controller;
 
-import com.example.websocketdemo.model.ChatMessage;
+import com.headissue.fate.model.ChatMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;

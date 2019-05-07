@@ -1,4 +1,4 @@
-package com.example.websocketdemo;
+package com.headissue.fate;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class WebsocketDemoApplicationTests {
+public class FateApplicationTests {
 
 	@Test
 	public void contextLoads() {
