@@ -15,6 +15,15 @@ public class Message extends AuditModel {
   private String sender;
   private String content;
 
+
+  public Message() {
+  }
+
+  public Message(ChatMessage chatMessage) {
+    setContent(chatMessage.getContent());
+    setSender(chatMessage.getSender());
+  }
+
   public long getId() {
     return id;
   }

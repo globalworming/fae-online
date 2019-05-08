@@ -2,11 +2,16 @@ package com.headissue.fate.controller;
 
 import com.headissue.fate.model.Message;
 import com.headissue.fate.repository.MessagesRepository;
+import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 public class MessagesController {
@@ -14,17 +19,17 @@ public class MessagesController {
   @Autowired
   private MessagesRepository messagesRepository;
 
-  @GetMapping("/messages")
+  @GetMapping("/message")
   public Page<Message> getMessages(Pageable pageable) {
     return messagesRepository.findAll(pageable);
   }
 
-  /*
-  @PostMapping("/questions")
-  public Question createQuestion(@Valid @RequestBody Question question) {
-    return messagesRepository.save(question);
+  @PostMapping("/message")
+  public Message createQuestion(@Valid @RequestBody Message message) {
+    return messagesRepository.save(message);
   }
 
+  /*
   @PutMapping("/questions/{questionId}")
   public Question updateQuestion(@PathVariable Long questionId,
                                  @Valid @RequestBody Question questionRequest) {

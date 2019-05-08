@@ -7,10 +7,13 @@ import SockJsClient from "react-stomp";
 class Chat extends Component {
   state = {
     messages: [{sender: "sender" , content: "name1", type: "CHAT"}],
+    fetched: false
   }
 
 
   componentDidMount() {
+    fetch("/message").then(response => response.json())
+        .then(json => this.setState({messages: json.content, fetched: true}))
   }
 
   addMessage = message =>
@@ -28,6 +31,10 @@ class Chat extends Component {
   }
 
   render() {
+    if (!this.state.fetched) {
+      return null
+    }
+
     return (
         <div>
 
