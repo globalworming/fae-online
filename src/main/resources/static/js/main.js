@@ -1,7 +1,7 @@
 'use strict';
 
 var usernamePage = document.querySelector('#username-page');
-var chatPage = document.querySelector('#chat-page');
+var chatPage = document.querySelector('#world-page');
 var usernameForm = document.querySelector('#usernameForm');
 var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
@@ -37,7 +37,7 @@ function onConnected() {
   stompClient.subscribe('/topic/public', onMessageReceived);
 
   // Tell your username to the server
-  stompClient.send("/app/chat.addUser",
+  stompClient.send("/app/world.addUser",
       {},
       JSON.stringify({sender: username, type: 'JOIN'})
   )
@@ -60,7 +60,7 @@ function sendMessage(event) {
       content: messageInput.value,
       type: 'CHAT'
     };
-    stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+    stompClient.send("/app/world.sendMessage", {}, JSON.stringify(chatMessage));
     messageInput.value = '';
   }
   event.preventDefault();
@@ -79,7 +79,7 @@ function onMessageReceived(payload) {
     messageElement.classList.add('event-message');
     message.content = message.sender + ' left!';
   } else {
-    messageElement.classList.add('chat-message');
+    messageElement.classList.add('world-message');
 
     var avatarElement = document.createElement('i');
     var avatarText = document.createTextNode(message.sender[0]);

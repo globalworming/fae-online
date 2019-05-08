@@ -6,14 +6,14 @@ import SockJsClient from "react-stomp";
 
 class Chat extends Component {
   state = {
-    messages: [{sender: "sender" , content: "name1", type: "CHAT"}],
+    messages: [],
     fetched: false
   }
 
 
   componentDidMount() {
-    fetch("/message").then(response => response.json())
-        .then(json => this.setState({messages: json.content, fetched: true}))
+    fetch("/message/" + this.props.room).then(response => response.json())
+        .then(json => this.setState({messages: json, fetched: true}))
   }
 
   addMessage = message =>
@@ -22,8 +22,7 @@ class Chat extends Component {
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
     const message = { "sender": "sender", "content": messageString ,"type": "CHAT"};
-    console.log("send", message);
-    this.clientRef.sendMessage("/app/chat.sendMessage", JSON.stringify(message));
+    this.clientRef.sendMessage("/app/world/" + this.props.room + "/sendMessage", JSON.stringify(message));
   }
 
   onMessageReceive = message => {
@@ -34,11 +33,10 @@ class Chat extends Component {
     if (!this.state.fetched) {
       return null
     }
-
     return (
         <section className="e2e-chat-messages">
 
-          <SockJsClient url="/ws" topics={["/topic/public"]}
+          <SockJsClient url="/ws" topics={["/world/" + this.props.room]}
                         onMessage={ this.onMessageReceive } ref={ (client) => { this.clientRef = client }} />
 
           <ChatInput

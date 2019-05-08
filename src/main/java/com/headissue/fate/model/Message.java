@@ -14,6 +14,7 @@ public class Message extends AuditModel {
   private long id;
   private String sender;
   private String content;
+  private long world;
 
 
   public Message() {
@@ -22,6 +23,7 @@ public class Message extends AuditModel {
   public Message(ChatMessage chatMessage) {
     setContent(chatMessage.getContent());
     setSender(chatMessage.getSender());
+    setWorld(chatMessage.getWorld());
   }
 
   public long getId() {
@@ -46,5 +48,13 @@ public class Message extends AuditModel {
 
   public void setContent(String content) {
     this.content = content;
+  }
+
+  public long getWorld() {
+    return world;
+  }
+
+  public void setWorld(long world) {
+    this.world = world;
   }
 }

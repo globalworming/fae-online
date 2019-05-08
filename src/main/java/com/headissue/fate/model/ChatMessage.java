@@ -4,6 +4,7 @@ public class ChatMessage {
   private MessageType type;
   private String content;
   private String sender;
+  private long world;
 
   public enum MessageType {
     CHAT,
@@ -33,5 +34,13 @@ public class ChatMessage {
 
   public void setSender(String sender) {
     this.sender = sender;
+  }
+
+  public long getWorld() {
+    return world;
+  }
+
+  public void setWorld(long world) {
+    this.world = world;
   }
 }

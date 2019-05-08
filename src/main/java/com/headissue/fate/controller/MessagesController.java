@@ -1,17 +1,15 @@
 package com.headissue.fate.controller;
 
 import com.headissue.fate.model.Message;
+import com.headissue.fate.model.World;
 import com.headissue.fate.repository.MessagesRepository;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
+import com.headissue.fate.repository.WorldRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class MessagesController {
@@ -19,14 +17,25 @@ public class MessagesController {
   @Autowired
   private MessagesRepository messagesRepository;
 
-  @GetMapping("/message")
-  public Page<Message> getMessages(Pageable pageable) {
-    return messagesRepository.findAll(pageable);
+  @Autowired
+  private WorldRepository worldRepository;
+
+  @GetMapping("/message/{worldName}")
+  public List<Message> getMessages(@PathVariable String worldName) {
+    World world = worldRepository.findByName(worldName);
+    List<Message> byWorldIdRef = messagesRepository.findByWorld(world.getId());
+    return byWorldIdRef;
   }
 
-  @PostMapping("/message")
-  public Message createQuestion(@Valid @RequestBody Message message) {
-    return messagesRepository.save(message);
+  @GetMapping("/{worldName}/id")
+  public long getWorldId (@PathVariable String worldName) {
+    World world = worldRepository.findByName(worldName);
+    if (world == null) {
+      World newWorld = new World();
+      newWorld.setName(worldName);
+      world = worldRepository.save(newWorld);
+    }
+    return world.getId();
   }
 
   /*

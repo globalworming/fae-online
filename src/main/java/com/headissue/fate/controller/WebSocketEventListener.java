@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+import static com.headissue.fate.model.ChatMessage.MessageType.*;
+import static java.lang.String.format;
+
 @Component
 public class WebSocketEventListener {
 
@@ -29,14 +32,15 @@ public class WebSocketEventListener {
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 
     String username = (String) headerAccessor.getSessionAttributes().get("username");
-    if(username != null) {
-      logger.info("User Disconnected : " + username);
+    String worldId = (String) headerAccessor.getSessionAttributes().get("worldId");
+    if (username != null) {
+      logger.info("User Disconnected: " + username);
 
       ChatMessage chatMessage = new ChatMessage();
-      chatMessage.setType(ChatMessage.MessageType.LEAVE);
+      chatMessage.setType(LEAVE);
       chatMessage.setSender(username);
 
-      messagingTemplate.convertAndSend("/topic/public", chatMessage);
+      messagingTemplate.convertAndSend(format("/world/%s", worldId), chatMessage);
     }
   }
 }

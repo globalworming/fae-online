@@ -21,6 +21,6 @@ public class PostsChatMessage implements Performable {
 
   @Override
   public <T extends Actor> void performAs(T actor) {
-    actor.attemptsTo(Enter.theValue(content).into(".chat-message-input").thenHit(Keys.ENTER));
+    actor.attemptsTo(Enter.theValue(content).into(".e2e-chat-message-input").thenHit(Keys.ENTER));
   }
 }
