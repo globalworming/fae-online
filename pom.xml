@@ -16,7 +16,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-	</properties>
+        <serenity.version>2.0.33</serenity.version>
+    </properties>
 
 	<dependencies>
 		<dependency>
@@ -66,6 +67,31 @@
             <version>5.1.6.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-core</artifactId>
+            <version>${serenity.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-junit</artifactId>
+            <version>${serenity.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-screenplay</artifactId>
+            <version>${serenity.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-screenplay-webdriver</artifactId>
+            <version>${serenity.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 	<build>
@@ -86,6 +112,47 @@
 					</schemas>
 				</configuration>
 			</plugin>
+
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.20</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                    <excludedGroups>allianz.allvest.e2e.junit.ExpectedButFailing</excludedGroups>
+                    <systemPropertyVariables>
+                        <webdriver.base.url>http://localhost:8080</webdriver.base.url>
+                        <webdriver.driver>provided</webdriver.driver>
+                        <!-- 600px width is minimum for chrome browser-->
+                        <serenity.browser.width>500</serenity.browser.width>
+                        <serenity.browser.height>700</serenity.browser.height>
+                    </systemPropertyVariables>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>net.serenity-bdd.maven.plugins</groupId>
+                <artifactId>serenity-maven-plugin</artifactId>
+                <version>${serenity.version}</version>
+                <executions>
+                    <execution>
+                        <id>serenity-reports</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 

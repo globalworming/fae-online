@@ -20,6 +20,7 @@ class ChatInput extends Component {
             }}
         >
           <input
+              className="e2e-chat-message-input"
               type="text"
               placeholder={'Enter message...'}
               value={this.state.message}

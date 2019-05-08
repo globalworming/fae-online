@@ -36,7 +36,7 @@ class Chat extends Component {
     }
 
     return (
-        <div>
+        <section className="e2e-chat-messages">
 
           <SockJsClient url="/ws" topics={["/topic/public"]}
                         onMessage={ this.onMessageReceive } ref={ (client) => { this.clientRef = client }} />
@@ -52,7 +52,7 @@ class Chat extends Component {
                   name={message.sender}
               />,
           )}
-        </div>
+        </section>
     )
   }
 }
