@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class World {
+public class World extends AuditModel {
 
   @Id
   @GeneratedValue(strategy= GenerationType.IDENTITY)

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
@@ -22,17 +21,16 @@ public class ChatController {
   @Autowired
   private SimpMessageSendingOperations messagingTemplate;
 
-
-  @MessageMapping("/world/{roomId}/sendMessage")
-  public void sendMessage(@DestinationVariable String roomId, @Payload ChatMessage chatMessage) {
+  @MessageMapping("/world/sendMessage")
+  public void sendMessage(@Payload ChatMessage chatMessage) {
     messagesRepository.save(new Message(chatMessage));
-    messagingTemplate.convertAndSend(format("/world/%s", roomId), chatMessage);
+    messagingTemplate.convertAndSend(format("/world/%s", chatMessage.getWorld()), chatMessage);
   }
 
   @MessageMapping("/world/{worldId}/addUser")
-  public void addUser(@DestinationVariable String roomId, @Payload ChatMessage chatMessage,
+  public void addUser(@DestinationVariable String worldId, @Payload ChatMessage chatMessage,
                       SimpMessageHeaderAccessor headerAccessor) {
-    String currentWorldId = (String) headerAccessor.getSessionAttributes().put("worldId", roomId);
+    String currentWorldId = (String) headerAccessor.getSessionAttributes().put("worldId", worldId);
     if (currentWorldId != null) {
       ChatMessage leaveMessage = new ChatMessage();
       leaveMessage.setType(ChatMessage.MessageType.LEAVE);
@@ -40,7 +38,8 @@ public class ChatController {
       messagingTemplate.convertAndSend(format("/world/%s", currentWorldId), leaveMessage);
     }
     headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-    messagingTemplate.convertAndSend(format("/world/%s", roomId), chatMessage);
+    String topic = format("/world/%s", worldId);
+    messagingTemplate.convertAndSend(topic, chatMessage);
   }
 
 }

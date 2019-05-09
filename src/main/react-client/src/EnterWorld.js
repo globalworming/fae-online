@@ -4,7 +4,7 @@ import ChatMessage from './ChatMessage'
 import SockJsClient from "react-stomp";
 
 
-class EnterRoom extends Component {
+class EnterWorld extends Component {
 
   state = { room: ''};
 
@@ -32,4 +32,4 @@ class EnterRoom extends Component {
   }
 }
 
-export default EnterRoom
+export default EnterWorld

@@ -20,11 +20,9 @@ public class MessagesController {
   @Autowired
   private WorldRepository worldRepository;
 
-  @GetMapping("/message/{worldName}")
-  public List<Message> getMessages(@PathVariable String worldName) {
-    World world = worldRepository.findByName(worldName);
-    List<Message> byWorldIdRef = messagesRepository.findByWorld(world.getId());
-    return byWorldIdRef;
+  @GetMapping("/message/{worldId}")
+  public List<Message> getMessages(@PathVariable long worldId) {
+    return messagesRepository.findByWorld(worldId);
   }
 
   @GetMapping("/{worldName}/id")

@@ -31,6 +31,7 @@ module.exports = {
     hotOnly: true,
     proxy: {
       '/message': 'http://127.0.0.1:8080',
+      '/world': 'http://127.0.0.1:8080',
       '/ws': 'ws://127.0.0.1:8080',
     },
   },

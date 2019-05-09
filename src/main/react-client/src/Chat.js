@@ -12,7 +12,8 @@ class Chat extends Component {
 
 
   componentDidMount() {
-    fetch("/message/" + this.props.room).then(response => response.json())
+    console.log("chat did mount", this.props.world);
+    fetch("/message/" + this.props.world.id).then(response => response.json())
         .then(json => this.setState({messages: json, fetched: true}))
   }
 
@@ -21,8 +22,8 @@ class Chat extends Component {
 
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    const message = { "sender": "sender", "content": messageString ,"type": "CHAT"};
-    this.clientRef.sendMessage("/app/world/" + this.props.room + "/sendMessage", JSON.stringify(message));
+    const message = { "sender": "sender", "content": messageString ,"type": "CHAT", world: this.props.world.id};
+    this.clientRef.sendMessage("/app/world//sendMessage", JSON.stringify(message));
   }
 
   onMessageReceive = message => {
@@ -36,7 +37,7 @@ class Chat extends Component {
     return (
         <section className="e2e-chat-messages">
 
-          <SockJsClient url="/ws" topics={["/world/" + this.props.room]}
+          <SockJsClient url="/ws" topics={["/world/" + this.props.world.id]}
                         onMessage={ this.onMessageReceive } ref={ (client) => { this.clientRef = client }} />
 
           <ChatInput
