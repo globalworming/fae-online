@@ -21,7 +21,7 @@ public class MessagesRepositoryTest {
   private MessagesRepository messagesRepository;
 
   @Test
-  public void world0Messages() {
+  public void testWorldMessages() {
     List<Message> byWorldidref = messagesRepository.findByWorld(0);
     assertThat(byWorldidref.size(), Is.is(1));
     assertThat(byWorldidref.get(0).getContent(), Is.is("content0"));

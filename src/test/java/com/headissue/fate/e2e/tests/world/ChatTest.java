@@ -4,6 +4,7 @@ import com.headissue.fate.e2e.TestBase;
 import com.headissue.fate.e2e.screenplay.actions.EntersWorld;
 import com.headissue.fate.e2e.screenplay.actions.PostsChatMessage;
 import com.headissue.fate.e2e.screenplay.page.HomePage;
+import com.headissue.fate.model.World;
 import net.serenitybdd.core.pages.WebElementState;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.screenplay.EventualConsequence;
@@ -49,7 +50,7 @@ public class ChatTest extends TestBase {
     gm.attemptsTo(PostsChatMessage.withContent(i + ""));
     then(gm).should(seeThatChatContains(i + ""));
 
-    pc.attemptsTo(EntersWorld.withName("world0"));
+    pc.attemptsTo(EntersWorld.withName(World.NAME_OF_TESTWORLD));
     then(pc).should(eventually(seeThat(
         WebElementQuestion.the(HomePage.chat),
         IsNot.not(WebElementStateMatchers.containsText(i + ""))
@@ -58,10 +59,10 @@ public class ChatTest extends TestBase {
 
   @Test
   public void postInDifferentWorlds() {
-    String world1 = "world" + UUID.randomUUID().toString();
+    String world1 = randomWorld().getName();
     int i = new Random().nextInt();
     gm.attemptsTo(EntersWorld.withName(world1));
-    pc.attemptsTo(EntersWorld.withName("world0"));
+    pc.attemptsTo(EntersWorld.withName(World.NAME_OF_TESTWORLD));
 
 
     gm.attemptsTo(PostsChatMessage.withContent(i + ""));

@@ -19,7 +19,7 @@ public class WorldRepositoryTest {
   private WorldRepository worldRepository;
 
   @Test
-  public void world0Messages() {
+  public void testWorldMessages() {
     assertThat(worldRepository.findByName("world0").getId(), Is.is(0L));
   }
 }

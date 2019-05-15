@@ -1,5 +1,6 @@
 package com.headissue.fate.controller;
 
+import com.headissue.fate.model.World;
 import com.headissue.fate.repository.MessagesRepository;
 import com.headissue.fate.repository.WorldRepository;
 import org.hamcrest.core.Is;
@@ -37,7 +38,7 @@ public class MessagesControllerTest {
 
   @Test
   public void getWorldId() throws Exception {
-    long actual = this.messagesController.getWorldId("world0");
+    long actual = this.messagesController.getWorldId(World.NAME_OF_TESTWORLD);
     long expected = 0;
     assertThat(actual, Is.is(expected));
   }
