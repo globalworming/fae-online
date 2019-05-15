@@ -8,6 +8,8 @@ import javax.persistence.Id;
 @Entity
 public class World extends AuditModel {
 
+  public static String NAME_OF_TESTWORLD = "world0";
+
   @Id
   @GeneratedValue(strategy= GenerationType.IDENTITY)
   private long id;

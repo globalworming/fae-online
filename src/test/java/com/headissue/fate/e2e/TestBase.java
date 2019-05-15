@@ -1,5 +1,6 @@
 package com.headissue.fate.e2e;
 
+import com.headissue.fate.model.World;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.serenitybdd.screenplay.actions.Open;
@@ -9,6 +10,7 @@ import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 
 import java.net.URL;
+import java.util.UUID;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.givenThat;
 
@@ -27,6 +29,12 @@ public abstract class TestBase {
   public void setUp() {
     givenThat(gm).can(BrowseTheWeb.with(aBrowser));
     givenThat(pc).can(BrowseTheWeb.with(aSecondBrowser));
+  }
+
+  protected World randomWorld() {
+    World world = new World();
+    world.setName("world" + UUID.randomUUID().toString());
+    return world;
   }
 
 }

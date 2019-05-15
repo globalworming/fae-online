@@ -2,14 +2,12 @@ package com.headissue.fate.e2e.tests.world;
 
 import com.headissue.fate.e2e.TestBase;
 import com.headissue.fate.e2e.screenplay.actions.EntersWorld;
+import com.headissue.fate.model.World;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.screenplay.matchers.WebElementStateMatchers;
 import net.serenitybdd.screenplay.questions.WebElementQuestion;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.Random;
-import java.util.UUID;
 
 import static net.serenitybdd.screenplay.EventualConsequence.eventually;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
@@ -20,21 +18,23 @@ public class WorldTest extends TestBase {
 
   @Test
   public void enterWorld() {
-    String world1 = "world" + UUID.randomUUID().toString();
-    int i = new Random().nextInt();
-    gm.attemptsTo(EntersWorld.of(world1));
+    String randomWorld = randomWorld().getName();
+    gm.attemptsTo(EntersWorld.withName(randomWorld));
 
     then(gm).should(eventually(seeThat(
         WebElementQuestion.the(".App h1"),
-        WebElementStateMatchers.containsText("welcome to " +world1)
+        WebElementStateMatchers.containsText("welcome to " + randomWorld)
     )));
 
-    pc.attemptsTo(EntersWorld.of("world0"));
+    pc.attemptsTo(EntersWorld.withName(World.NAME_OF_TESTWORLD));
 
-    then(gm).should(eventually(seeThat(
+    then(pc).should(eventually(seeThat(
         WebElementQuestion.the(".App h1"),
-        WebElementStateMatchers.containsText("welcome to " +world1)
+        WebElementStateMatchers.containsText("welcome to " + World.NAME_OF_TESTWORLD)
     )));
+  }
 
+  @Test
+  public void name() {
   }
 }
