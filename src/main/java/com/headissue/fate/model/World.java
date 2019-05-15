@@ -8,12 +8,14 @@ import javax.persistence.Id;
 @Entity
 public class World extends AuditModel {
 
-  public static String NAME_OF_TESTWORLD = "world0";
+  public static final long ID_OF_TESTWORLD = 0;
+  public static final String NAME_OF_TESTWORLD = "world0";
 
   @Id
   @GeneratedValue(strategy= GenerationType.IDENTITY)
   private long id;
   private String name;
+  private String description;
 
   public long getId() {
     return id;
@@ -29,5 +31,13 @@ public class World extends AuditModel {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 }

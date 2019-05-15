@@ -2,6 +2,7 @@
 import React, { Component} from "react";
 import "./App.css";
 import Chat from './Chat'
+import World from './World'
 import EnterWorld from './EnterWorld'
 
 class App extends Component{
@@ -9,10 +10,12 @@ class App extends Component{
   state = { }
 
   enterWorld = world => {
-    fetch("/" + world + "/id").then(response => response.json())
-        .then(data => this.setState({world: {id: data, name: world}}))
-    //this.setState({room})
-  }
+    fetch("/" + world + "/id")
+        .then(response => response.json())
+        .then(id => fetch("/world/" + id)
+            .then(response => response.json())
+            .then(world => this.setState({world})))
+  };
 
   render(){
     if (!this.state.world) {
@@ -23,7 +26,7 @@ class App extends Component{
 
     return(
         <div className="App">
-          <h1>welcome to {this.state.world.name}</h1>
+          <World world={this.state.world}/>
           <Chat world={this.state.world}/>
         </div>
     );

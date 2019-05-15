@@ -9,7 +9,9 @@ import net.serenitybdd.screenplay.questions.WebElementQuestion;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static com.headissue.fate.model.World.NAME_OF_TESTWORLD;
 import static net.serenitybdd.screenplay.EventualConsequence.eventually;
+import static net.serenitybdd.screenplay.GivenWhenThen.givenThat;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.GivenWhenThen.then;
 
@@ -26,15 +28,21 @@ public class WorldTest extends TestBase {
         WebElementStateMatchers.containsText("welcome to " + randomWorld)
     )));
 
-    pc.attemptsTo(EntersWorld.withName(World.NAME_OF_TESTWORLD));
+    pc.attemptsTo(EntersWorld.withName(NAME_OF_TESTWORLD));
 
     then(pc).should(eventually(seeThat(
         WebElementQuestion.the(".App h1"),
-        WebElementStateMatchers.containsText("welcome to " + World.NAME_OF_TESTWORLD)
+        WebElementStateMatchers.containsText("welcome to " + NAME_OF_TESTWORLD)
     )));
   }
 
   @Test
-  public void name() {
+  public void testWorldDescription() {
+    givenThat(gm).wasAbleTo(EntersWorld.withName(NAME_OF_TESTWORLD));
+
+    then(gm).should(seeThat(
+        WebElementQuestion.the(".e2e-world-description"),
+        WebElementStateMatchers.containsOnlyText("description of world 0")
+    ));
   }
 }
