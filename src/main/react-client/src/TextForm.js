@@ -9,7 +9,7 @@ class TextForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: props.text
+      text: props.text || ''
     }
   }
 
@@ -23,6 +23,8 @@ class TextForm extends Component {
               this.setState({ text: '' })
             }}
         >
+          {// FIXME allow <textarea></textarea>
+          }
           <input
               className="e2e-input"
               type={this.props.type}

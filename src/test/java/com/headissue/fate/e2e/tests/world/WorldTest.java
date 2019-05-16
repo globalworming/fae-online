@@ -105,12 +105,19 @@ public class WorldTest extends TestBase {
     givenThat(gm).wasAbleTo(EntersWorld.withName(randomWorld));
     givenThat(pc).wasAbleTo(EntersWorld.withName(randomWorld));
 
+    when(gm).attemptsTo(new UpdatesWorldDescription("description of " + randomWorld));
+    then(pc).should(seeThat(
+        WebElementQuestion.the(".e2e-world-description"),
+        WebElementStateMatchers.containsText("description of " + randomWorld)
+    ));
+
     when(gm).attemptsTo(new EditButCancelWorldDescription("new description of " + randomWorld));
 
     then(gm).should(seeThat(
         WebElementQuestion.the(".e2e-world-description"),
         WebElementStateMatchers.containsText("description of " + randomWorld)
     ));
+
     then(pc).should(seeThat(
         WebElementQuestion.the(".e2e-world-description"),
         WebElementStateMatchers.containsText("description of " + randomWorld)
