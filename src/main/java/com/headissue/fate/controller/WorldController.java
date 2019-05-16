@@ -1,17 +1,27 @@
 package com.headissue.fate.controller;
 
+import com.headissue.fate.model.ChatMessage;
+import com.headissue.fate.model.EditWorldMessage;
 import com.headissue.fate.model.World;
 import com.headissue.fate.repository.WorldRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 public class WorldController {
 
   @Autowired
   private WorldRepository worldRepository;
+
+  @Autowired
+  private WebSocketController webSocketController;
 
   @GetMapping("/{worldName}/id")
   public long getWorldId (@PathVariable String worldName) {
@@ -29,27 +39,27 @@ public class WorldController {
     return worldRepository.findById(worldId).orElse(null);
   }
 
-  /*
-  @PutMapping("/questions/{questionId}")
-  public Question updateQuestion(@PathVariable Long questionId,
-                                 @Valid @RequestBody Question questionRequest) {
-    return messagesRepository.findById(questionId)
-        .map(question -> {
-          question.setTitle(questionRequest.getTitle());
-          question.setDescription(questionRequest.getDescription());
-          return messagesRepository.save(question);
-        }).orElseThrow(() -> new ResourceNotFoundException("Question not found with id " + questionId));
+  @PutMapping("/world/{worldId}/description")
+  public void putWorldDescription(@PathVariable long worldId, @Valid @RequestBody String description) {
+    World world = worldRepository.findById(worldId).orElseGet(null);
+    world.setDescription(description);
+    worldRepository.save(world);
+
+    EditWorldMessage editWorldMessage = new EditWorldMessage();
+    editWorldMessage.setType(EditWorldMessage.MessageType.UPDATE_DESCRIPTION);
+    editWorldMessage.setContent(description);
+    webSocketController.sendMessage(worldId, editWorldMessage);
   }
 
+  @DeleteMapping("/world/{worldId}/description")
+  public void deleteWorldDescription(@PathVariable long worldId) {
+    World world = worldRepository.findById(worldId).orElseGet(null);
+    world.setDescription("");
+    worldRepository.save(world);
 
-  @DeleteMapping("/questions/{questionId}")
-  public ResponseEntity<?> deleteQuestion(@PathVariable Long questionId) {
-    return messagesRepository.findById(questionId)
-        .map(question -> {
-          messagesRepository.delete(question);
-          return ResponseEntity.ok().build();
-        }).orElseThrow(() -> new ResourceNotFoundException("Question not found with id " + questionId));
+    EditWorldMessage editWorldMessage = new EditWorldMessage();
+    editWorldMessage.setType(EditWorldMessage.MessageType.UPDATE_DESCRIPTION);
+    editWorldMessage.setContent("");
+    webSocketController.sendMessage(worldId, editWorldMessage);
   }
-
-  */
 }

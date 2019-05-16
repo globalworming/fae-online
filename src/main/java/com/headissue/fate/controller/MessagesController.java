@@ -21,28 +21,4 @@ public class MessagesController {
   public List<Message> getMessages(@PathVariable long worldId) {
     return messagesRepository.findByWorld(worldId);
   }
-
-  /*
-  @PutMapping("/questions/{questionId}")
-  public Question updateQuestion(@PathVariable Long questionId,
-                                 @Valid @RequestBody Question questionRequest) {
-    return messagesRepository.findById(questionId)
-        .map(question -> {
-          question.setTitle(questionRequest.getTitle());
-          question.setDescription(questionRequest.getDescription());
-          return messagesRepository.save(question);
-        }).orElseThrow(() -> new ResourceNotFoundException("Question not found with id " + questionId));
-  }
-
-
-  @DeleteMapping("/questions/{questionId}")
-  public ResponseEntity<?> deleteQuestion(@PathVariable Long questionId) {
-    return messagesRepository.findById(questionId)
-        .map(question -> {
-          messagesRepository.delete(question);
-          return ResponseEntity.ok().build();
-        }).orElseThrow(() -> new ResourceNotFoundException("Question not found with id " + questionId));
-  }
-
-  */
 }

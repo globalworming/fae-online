@@ -3,7 +3,7 @@ import ChatInput from './ChatInput'
 import ChatMessage from './ChatMessage'
 import SockJsClient from "react-stomp";
 
-
+// FIXME rocketchat integration
 class Chat extends Component {
   state = {
     messages: [],
@@ -23,11 +23,13 @@ class Chat extends Component {
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
     const message = { "sender": "sender", "content": messageString ,"type": "CHAT", world: this.props.world.id};
-    this.clientRef.sendMessage("/app/world//sendMessage", JSON.stringify(message));
+    this.clientRef.sendMessage("/app/world/sendMessage", JSON.stringify(message));
   }
 
   onMessageReceive = message => {
-    this.addMessage(message)
+    if (message.type === "CHAT") {
+      this.addMessage(message)
+    }
   }
 
   render() {

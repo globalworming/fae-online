@@ -43,6 +43,17 @@ public class WorldControllerTest {
   }
 
   @Test
+  public void updateWorldDescription() {
+    UUID uuid = UUID.randomUUID();
+    long worldId = this.worldController.getWorldId(uuid.toString());
+    assertThat(this.worldRepository.findById(worldId).orElse(null).getDescription(),
+        IsNull.nullValue());
+    this.worldController.putWorldDescription(worldId, "description" + uuid.toString());
+    assertThat(this.worldRepository.findById(worldId).orElse(null).getDescription(),
+        Is.is("description" + uuid.toString()));
+  }
+
+  @Test
   public void getWorldCreatesWorld() throws Exception {
     UUID uuid = UUID.randomUUID();
     assertThat(this.worldRepository.findByName(uuid.toString()), IsNull.nullValue());

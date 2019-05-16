@@ -1,6 +1,7 @@
 package com.headissue.fate.controller;
 
 import com.headissue.fate.model.ChatMessage;
+import com.headissue.fate.model.EditWorldMessage;
 import com.headissue.fate.model.Message;
 import com.headissue.fate.repository.MessagesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Controller;
 import static java.lang.String.format;
 
 @Controller
-public class ChatController {
+public class WebSocketController {
 
   @Autowired
   private MessagesRepository messagesRepository;
@@ -42,4 +43,9 @@ public class ChatController {
     messagingTemplate.convertAndSend(topic, chatMessage);
   }
 
+  @MessageMapping("/world/{worldId}/sendMessage")
+  public void sendMessage(@DestinationVariable long worldId, @Payload EditWorldMessage editWorldMessage) {
+    messagingTemplate.convertAndSend(format("/world/%s", worldId), editWorldMessage);
+
+  }
 }
