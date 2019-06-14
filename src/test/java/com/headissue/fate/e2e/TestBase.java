@@ -6,6 +6,8 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.thucydides.core.annotations.ClearCookiesPolicy;
 import net.thucydides.core.annotations.Managed;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -43,7 +45,7 @@ public abstract class TestBase {
     givenThat(pc).can(BrowseTheWeb.with(aSecondBrowser));
   }
 
-  protected World randomWorld() {
+  public static World randomWorld() {
     World world = new World();
     world.setName("world" + UUID.randomUUID().toString());
     return world;

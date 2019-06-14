@@ -11,7 +11,6 @@ import org.hamcrest.core.IsNot;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.headissue.fate.model.World.NAME_OF_TESTWORLD;
 import static net.serenitybdd.screenplay.EventualConsequence.eventually;
 import static net.serenitybdd.screenplay.GivenWhenThen.givenThat;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
@@ -20,6 +19,9 @@ import static net.serenitybdd.screenplay.GivenWhenThen.when;
 
 @RunWith(SerenityRunner.class)
 public class WorldTest extends TestBase {
+
+  public static final String NAME_OF_TESTWORLD = "world 0";
+  public static final long ID_OF_TESTWORLD = 0;
 
   @Test
   public void enterWorld() {
@@ -83,20 +85,20 @@ public class WorldTest extends TestBase {
     when(pc).attemptsTo(EntersWorld.withName(randomWorld));
 
     when(gm).attemptsTo(new UpdatesWorldDescription("description of " + randomWorld));
-    then(pc).should(seeThat(
+    then(pc).should(eventually(seeThat(
         WebElementQuestion.the(".e2e-world-description"),
         WebElementStateMatchers.containsText("description of " + randomWorld)
-    ));
+    )));
 
     when(gm).attemptsTo(new UpdatesWorldDescription(""));
-    then(gm).should(seeThat(
+    then(gm).should(eventually(seeThat(
         WebElementQuestion.the(".e2e-world-description"),
         IsNot.not(WebElementStateMatchers.containsText(randomWorld))
-    ));
-    then(pc).should(seeThat(
+    )));
+    then(pc).should(eventually(seeThat(
         WebElementQuestion.the(".e2e-world-description"),
         IsNot.not(WebElementStateMatchers.containsText(randomWorld))
-    ));
+    )));
   }
 
   @Test

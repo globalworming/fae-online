@@ -18,16 +18,17 @@ class Chat extends Component {
   }
 
   addMessage = message =>
-      this.setState(state => ({ messages: [message, ...state.messages] }))
+      this.setState(state => ({ messages: [message, ...state.messages] }));
 
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    const message = { "sender": "sender", "content": messageString ,"type": "CHAT", world: this.props.world.id};
-    this.clientRef.sendMessage("/app/world/sendMessage", JSON.stringify(message));
+    const message = { "sender": "sender", "content": messageString ,"messageType": "CHAT"};
+    console.log("submit chat message", JSON.stringify(message));
+    this.clientRef.sendMessage("/app/world/sendMessage/" + this.props.world.id, JSON.stringify(message));
   }
 
   onMessageReceive = message => {
-    if (message.type === "CHAT") {
+    if (message.messageType === "CHAT") {
       this.addMessage(message)
     }
   }
