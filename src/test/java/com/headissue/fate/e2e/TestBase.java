@@ -26,7 +26,6 @@ import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.GivenWhenThen.then;
 import static org.junit.Assert.fail;
 
-@ActiveProfiles("it")
 public abstract class TestBase {
 
   @Rule
