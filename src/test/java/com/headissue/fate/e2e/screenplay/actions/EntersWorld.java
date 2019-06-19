@@ -1,7 +1,6 @@
 package com.headissue.fate.e2e.screenplay.actions;
 
 import com.headissue.fate.e2e.screenplay.page.HomePage;
-import com.headissue.fate.model.World;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Performable;
 import net.serenitybdd.screenplay.actions.Enter;

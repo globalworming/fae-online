@@ -1,60 +1,90 @@
 package com.headissue.fate.model;
 
-import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.OneToOne;
+import java.util.Objects;
 
 @Entity
+@JsonIgnoreProperties(
+    value = {"world"}
+)
 public class Message extends AuditModel {
+    private static final long serialVersionUID = 1L;
 
-  @Id
-  @GeneratedValue(strategy= GenerationType.IDENTITY)
-  private long id;
-  private String sender;
-  private String content;
-  private long world;
+    private String sender;
+    
+    private String content;
 
+    private String messageType;
 
-  public Message() {
-  }
+    @OneToOne
+    private World world;
 
-  public Message(ChatMessage chatMessage) {
-    setContent(chatMessage.getContent());
-    setSender(chatMessage.getSender());
-    setWorld(chatMessage.getWorld());
-  }
+    public static class Type {
+        public static final String LEAVE = "leave";
+        public static String CHAT = "chat";
+    }
 
-  public long getId() {
-    return id;
-  }
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
 
-  public void setId(long id) {
-    this.id = id;
-  }
+    public String getSender() {
+        return this.sender;
+    }
 
-  public String getSender() {
-    return sender;
-  }
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-  public void setSender(String sender) {
-    this.sender = sender;
-  }
+    public String getContent() {
+        return this.content;
+    }
 
-  public String getContent() {
-    return content;
-  }
+    public void setWorld(World world) {
+        this.world = world;
+    }
 
-  public void setContent(String content) {
-    this.content = content;
-  }
+    public World getWorld() {
+        return this.world;
+    }
 
-  public long getWorld() {
-    return world;
-  }
+    public String getMessageType() {
+        return messageType;
+    }
 
-  public void setWorld(long world) {
-    this.world = world;
-  }
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return Objects.equals(sender, message.sender) &&
+            Objects.equals(content, message.content) &&
+            Objects.equals(messageType, message.messageType) &&
+            Objects.equals(world, message.world);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sender, content, messageType, world);
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+            "sender='" + sender + '\'' +
+            ", content='" + content + '\'' +
+            ", messageType='" + messageType + '\'' +
+            ", world=" + world +
+            '}';
+    }
 }
+

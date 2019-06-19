@@ -1,43 +1,64 @@
 package com.headissue.fate.model;
 
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import java.util.Objects;
 
 @Entity
-public class World extends AuditModel {
+public class World extends HasCharactersAndAspects {
+    
+   private String name;
+   private String description;
 
-  public static final long ID_OF_TESTWORLD = 0;
-  public static final String NAME_OF_TESTWORLD = "world0";
+   @OneToOne
+   private Player gameMaster;
 
-  @Id
-  @GeneratedValue(strategy= GenerationType.IDENTITY)
-  private long id;
-  private String name;
-  private String description;
+    public String getDescription() {
+        return description;
+    }
 
-  public long getId() {
-    return id;
-  }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-  public void setId(long id) {
-    this.id = id;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public Player getGameMaster() {
+        return gameMaster;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public void setGameMaster(Player gameMaster) {
+        this.gameMaster = gameMaster;
+    }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        World world = (World) o;
+        return Objects.equals(name, world.name) &&
+            Objects.equals(description, world.description) &&
+            Objects.equals(gameMaster, world.gameMaster);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, gameMaster);
+    }
+
+    @Override
+    public String toString() {
+        return "World{" +
+            "name='" + name + '\'' +
+            ", description='" + description + '\'' +
+            ", gameMaster=" + gameMaster +
+            '}';
+    }
 }

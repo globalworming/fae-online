@@ -11,7 +11,7 @@ class App extends Component{
 
   enterWorld = world => {
     fetch("/" + world + "/id")
-        .then(response => response.json())
+        .then(response => {console.log("resp", response); return response.json()})
         .then(id => fetch("/world/" + id)
             .then(response => response.json())
             .then(world => this.setState({world})))

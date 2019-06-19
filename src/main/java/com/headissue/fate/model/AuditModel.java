@@ -11,19 +11,48 @@ import java.util.Date;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(
-    value = {"createdAt", "updatedAt"},
-    allowGetters = true
+    value = {"createdAt", "updatedAt"}
 )
 public abstract class AuditModel implements Serializable {
+
+  @Id
+  @GeneratedValue(strategy= GenerationType.IDENTITY)
+  private long id;
+
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "created_at", nullable = false, updatable = false)
+  @Column(nullable = false, updatable = false)
   @CreatedDate
+  // TODO Instant?
   private Date createdAt;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "updated_at", nullable = false)
+  @Column(nullable = false)
   @LastModifiedDate
   private Date updatedAt;
 
-  // Getters and Setters (Omitted for brevity)
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+
+  public Long getId() {
+    return this.id;
+  }
+
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public Date getCreatedAt() {
+    return this.createdAt;
+  }
+
+  public void setUpdatedAt(Date updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  public Date getUpdatedAt() {
+    return this.updatedAt;
+  }
+
 }

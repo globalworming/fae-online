@@ -1,5 +1,7 @@
 package com.headissue.fate.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.headissue.fate.model.World;
 import com.headissue.fate.repository.WorldRepository;
 import org.hamcrest.core.Is;
@@ -8,19 +10,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+import static com.headissue.fate.e2e.tests.world.WorldTest.ID_OF_TESTWORLD;
+import static com.headissue.fate.e2e.tests.world.WorldTest.NAME_OF_TESTWORLD;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
+@Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class WorldControllerTest {
-
-  @LocalServerPort
-  private int port;
 
   @Autowired
   private WorldController worldController;
@@ -31,15 +33,16 @@ public class WorldControllerTest {
 
   @Test
   public void getWorldId() throws Exception {
-    long actual = this.worldController.getWorldId(World.NAME_OF_TESTWORLD);
+    long actual = this.worldController.getWorldId(NAME_OF_TESTWORLD);
     long expected = 0;
     assertThat(actual, Is.is(expected));
   }
 
   @Test
   public void getTestWorldDescription() throws Exception {
-    World world = this.worldController.getWorld(World.ID_OF_TESTWORLD);
+    World world = this.worldController.getWorld(ID_OF_TESTWORLD);
     assertThat(world.getDescription(), Is.is("description of world 0"));
+
   }
 
   @Test

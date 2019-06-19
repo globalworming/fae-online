@@ -1,8 +1,9 @@
 package com.headissue.fate.controller;
 
-import com.headissue.fate.model.ChatMessage;
 import com.headissue.fate.model.EditWorldMessage;
+import com.headissue.fate.model.Player;
 import com.headissue.fate.model.World;
+import com.headissue.fate.repository.PlayerRepository;
 import com.headissue.fate.repository.WorldRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,9 @@ public class WorldController {
   private WorldRepository worldRepository;
 
   @Autowired
+  private PlayerRepository playerRepository;
+
+  @Autowired
   private WebSocketController webSocketController;
 
   @GetMapping("/{worldName}/id")
@@ -29,6 +33,10 @@ public class WorldController {
     if (world == null) {
       World newWorld = new World();
       newWorld.setName(worldName);
+      Player gameMaster = new Player();
+      gameMaster.setName("game master");
+      playerRepository.save(gameMaster);
+      newWorld.setGameMaster(gameMaster);
       world = worldRepository.save(newWorld);
     }
     return world.getId();

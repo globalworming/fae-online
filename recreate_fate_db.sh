@@ -1,0 +1,2 @@
+dropdb fate
+createdb fate

@@ -1,6 +1,6 @@
 package com.headissue.fate.controller;
 
-import com.headissue.fate.model.ChatMessage;
+import com.headissue.fate.model.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import static com.headissue.fate.model.ChatMessage.MessageType.*;
 import static java.lang.String.format;
 
 @Component
@@ -36,8 +35,8 @@ public class WebSocketEventListener {
     if (username != null) {
       logger.info("User Disconnected: " + username);
 
-      ChatMessage chatMessage = new ChatMessage();
-      chatMessage.setType(LEAVE);
+      Message chatMessage = new Message();
+      chatMessage.setMessageType(Message.Type.LEAVE);
       chatMessage.setSender(username);
 
       messagingTemplate.convertAndSend(format("/world/%s", worldId), chatMessage);
