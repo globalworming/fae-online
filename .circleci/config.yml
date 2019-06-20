@@ -37,15 +37,24 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
+      - run:
+          name: Download Selenium
+          command: |
+            curl -O http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar
+          - run:
+              name: Start Selenium
+              command: |
+                java -jar selenium-server-standalone-3.5.3.jar -log ~/test-reports/selenium.log
+              background: true
+
       # run tests!
-      - run: mvn clean verify -P it
+      - run: mvn clean verify -P it -Dproperties=`pwd`/serenity.remote.properties
 
       - run:
           name: Save test results
           command: |
             mkdir -p ~/test-results/junit/
             find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
-            find . -type f -regex ".*/target/failsafe-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
           when: always
       - store_test_results:
           path: ~/test-results
@@ -55,6 +64,7 @@ jobs:
       - run:
           name: Save test results
           command: |
+            rm -rf ./target/site/serenity/fontawesome-free-5.3.1-web
             cp -r ./target/site/serenity ~/test-results/
           when: always
       - store_test_results:
