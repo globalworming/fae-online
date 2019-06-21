@@ -55,19 +55,19 @@ public class Aspect extends AuditModel{
         Aspect aspect = (Aspect) o;
         return freeInvocations == aspect.freeInvocations &&
             isBuff == aspect.isBuff &&
-            Objects.equals(discoveredBy, aspect.discoveredBy) &&
+            Objects.equals(discoveredBy.getId(), aspect.discoveredBy.getId()) &&
             Objects.equals(description, aspect.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(discoveredBy, freeInvocations, isBuff, description);
+        return Objects.hash(discoveredBy.getId(), freeInvocations, isBuff, description);
     }
 
     @Override
     public String toString() {
         return "Aspect{" +
-            "discoveredBy=" + discoveredBy +
+            "discoveredBy=" + discoveredBy.getId() +
             ", freeInvocations=" + freeInvocations +
             ", isBuff=" + isBuff +
             ", description='" + description + '\'' +

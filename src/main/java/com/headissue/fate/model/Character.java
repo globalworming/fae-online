@@ -7,6 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -36,8 +37,7 @@ public class Character extends HasAspects {
     //@JoinColumn(name = "player_id")
     private Player owner;
 
-    @OneToMany
-    private Set<MeasurableAspect> stress = new HashSet<>();
+    private int stress;
 
     @OneToMany
     private Set<MeasurableAspect> consequences = new HashSet<>();
@@ -106,11 +106,11 @@ public class Character extends HasAspects {
         this.owner = owner;
     }
 
-    public Set<MeasurableAspect> getStress() {
+    public int getStress() {
         return stress;
     }
 
-    public void setStress(Set<MeasurableAspect> stress) {
+    public void setStress(int stress) {
         this.stress = stress;
     }
 
@@ -120,5 +120,43 @@ public class Character extends HasAspects {
 
     public void setConsequences(Set<MeasurableAspect> consequences) {
         this.consequences = consequences;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Character character = (Character) o;
+        return edge == character.edge &&
+            refresh == character.refresh &&
+            stress == character.stress &&
+            Objects.equals(name, character.name) &&
+            Objects.equals(highConcept, character.highConcept) &&
+            Objects.equals(dilemma, character.dilemma) &&
+            Objects.equals(approaches, character.approaches) &&
+            Objects.equals(stunts, character.stunts) &&
+            Objects.equals(owner, character.owner) &&
+            Objects.equals(consequences, character.consequences);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, highConcept, dilemma, approaches, stunts, edge, refresh, owner, stress, consequences);
+    }
+
+    @Override
+    public String toString() {
+        return "Character{" +
+            "name='" + name + '\'' +
+            ", highConcept=" + highConcept +
+            ", dilemma=" + dilemma +
+            ", approaches=" + approaches +
+            ", stunts='" + stunts + '\'' +
+            ", edge=" + edge +
+            ", refresh=" + refresh +
+            ", owner=" + owner +
+            ", stress=" + stress +
+            ", consequences=" + consequences +
+            '}';
     }
 }

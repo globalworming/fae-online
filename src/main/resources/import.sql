@@ -10,7 +10,7 @@ insert into scenario VALUES (0, now(), now(), 'scenario 0', 0);
 
 insert into scene VALUES (0, now(), now(), 'scene 0', 0);
 
-insert into character VALUES (0, now(), now(), 3, 'kratos', 3, 'i get +2 when forcefully attacking in melee; once a session i can rage', null, null, null);
+insert into character VALUES (0, now(), now(), 3, 'kratos', 3, 3, 'i get +2 when forcefully attacking in melee; once a session i can rage', null, null, null);
 
 insert into aspect VALUES (0, now(), now(), 'aspect 0', 0, false, 0);
 insert into aspect VALUES (1, now(), now(), 'i am the god of war', 0, false, 0);
@@ -28,4 +28,10 @@ insert into character_aspects VALUES (0, 3);
 insert into character_aspects VALUES (0, 4);
 insert into character_aspects VALUES (0, 5);
 
+
+insert into aspect VALUES (6, now(), now(), 'my bow is infused with light', 0, false, 0);
+
+insert into mook VALUES (0, now(), now(), 'composure', 'shooting with the bow', 'Boy', 2, 0);
+
+insert into mook_aspects VALUES (0, 6);
 
