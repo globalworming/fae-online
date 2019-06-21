@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8u171-jdk-browsers
-      #- image: maven/3.6-jdk-8
+      - image: circleci/node:4.8.2
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -48,6 +48,13 @@ jobs:
             mkdir selenium-log
             java -jar selenium-server-standalone-3.5.3.jar -log selenium-log/selenium.log
           background: true
+
+      - run:
+          name: build the react client
+          command: |
+            cd src/main/react-client
+            npm install
+            npm package
 
       # run tests!
       - run: mvn clean verify -P it -Dproperties=`pwd`/serenity.remote.properties
