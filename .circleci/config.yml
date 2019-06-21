@@ -35,7 +35,7 @@ jobs:
           command: |
             cd src/main/react-client
             npm install
-            npm package
+            npm run package
 
 
       - run: mvn dependency:go-offline
