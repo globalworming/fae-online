@@ -11,6 +11,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class MyRemoteChromeDriver implements DriverSource {
@@ -24,7 +25,9 @@ public class MyRemoteChromeDriver implements DriverSource {
     caps.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
 
     try {
-      return new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), caps);
+      RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), caps);
+      remoteWebDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+      return remoteWebDriver;
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
