@@ -6,6 +6,8 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.thucydides.core.annotations.ClearCookiesPolicy;
 import net.thucydides.core.annotations.Managed;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -13,6 +15,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.logging.LogEntry;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.UUID;
