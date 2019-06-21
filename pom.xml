@@ -114,13 +114,6 @@
                     <excludes>
                         <exclude>**/e2e/**/*Test.java</exclude>
                     </excludes>
-                    <systemPropertyVariables>
-                        <webdriver.base.url>http://localhost:8080</webdriver.base.url>
-                        <!--webdriver.driver>provided</webdriver.driver-->
-                        <!-- 600px width is minimum for chrome browser-->
-                        <serenity.browser.width>500</serenity.browser.width>
-                        <serenity.browser.height>700</serenity.browser.height>
-                    </systemPropertyVariables>
                 </configuration>
             </plugin>
 
@@ -157,7 +150,6 @@
                     </includes>
                     <systemPropertyVariables>
                         <webdriver.base.url>http://localhost:8080</webdriver.base.url>
-                        <webdriver.driver>provided</webdriver.driver>
                         <serenity.browser.width>500</serenity.browser.width>
                         <serenity.browser.height>700</serenity.browser.height>
                     </systemPropertyVariables>
