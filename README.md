@@ -17,3 +17,4 @@
     cd $projectRoot
     mvn spring-boot:run
     
+i will try do maintain a [dev diary](https://gist.github.com/globalworming/eb718b9d11067c0a5c0a32191baba828)
