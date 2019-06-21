@@ -1,6 +1,17 @@
+## build on circle ci [![CircleCI](https://circleci.com/gh/globalworming/fae-online/tree/master.svg?style=svg)](https://circleci.com/gh/globalworming/fae-online/tree/master)
 
+## prerequisutes
+
+* java
+* maven
+* node
+* chrome
+
+## run locally
+
+    # check out the project
     createdb fate
-    # change credentials in application.json
+    # change the credentials in application.json
     cd src/react-client
     npm package
     cd $projectRoot
