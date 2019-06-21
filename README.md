@@ -1,6 +1,6 @@
 ## build on circle ci [![CircleCI](https://circleci.com/gh/globalworming/fae-online/tree/master.svg?style=svg)](https://circleci.com/gh/globalworming/fae-online/tree/master)
 
-## prerequisutes
+## prerequisites
 
 * java
 * maven
