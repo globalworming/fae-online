@@ -50,7 +50,7 @@ jobs:
           background: true
 
       # run tests!
-      - run: mvn clean verify -P it -Dproperties=`pwd`/serenity.remote.properties
+      - run: mvn clean verify -P it -Dproperties=`pwd`/serenity.remote.properties -Dwebdriver.remote.url=http://localhost:4444/wd/hub -Dwebdriver.remote.driver=chrome
 
       - run:
           name: Save junit results
