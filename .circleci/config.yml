@@ -30,6 +30,14 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      - run:
+          name: build the react client
+          command: |
+            cd src/main/react-client
+            npm install
+            npm package
+
+
       - run: mvn dependency:go-offline
 
       - save_cache:
@@ -48,13 +56,6 @@ jobs:
             mkdir selenium-log
             java -jar selenium-server-standalone-3.5.3.jar -log selenium-log/selenium.log
           background: true
-
-      - run:
-          name: build the react client
-          command: |
-            cd src/main/react-client
-            npm install
-            npm package
 
       # run tests!
       - run: mvn clean verify -P it -Dproperties=`pwd`/serenity.remote.properties
