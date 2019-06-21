@@ -26,7 +26,6 @@ public class MyRemoteChromeDriver implements DriverSource {
 
     try {
       RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), caps);
-      remoteWebDriver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
       return remoteWebDriver;
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
