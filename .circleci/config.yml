@@ -79,5 +79,5 @@ jobs:
           destination: log
 
       - store_artifacts:
-          path: tomcat/log/
+          path: tomcat/logs/
           destination: log
