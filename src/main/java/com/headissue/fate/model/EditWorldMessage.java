@@ -1,19 +1,19 @@
 package com.headissue.fate.model;
 
 public class EditWorldMessage {
-  private MessageType type;
+  private MessageType messageType;
   private String content;
 
   public enum MessageType {
-    UPDATE_DESCRIPTION,
+    UPDATE_WORLD,
   }
 
-  public MessageType getType() {
-    return type;
+  public MessageType getMessageType() {
+    return messageType;
   }
 
-  public void setType(MessageType type) {
-    this.type = type;
+  public void setMessageType(MessageType messageType) {
+    this.messageType = messageType;
   }
 
   public String getContent() {

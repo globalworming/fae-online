@@ -54,7 +54,7 @@ public class WorldController {
     worldRepository.save(world);
 
     EditWorldMessage editWorldMessage = new EditWorldMessage();
-    editWorldMessage.setType(EditWorldMessage.MessageType.UPDATE_DESCRIPTION);
+    editWorldMessage.setMessageType(EditWorldMessage.MessageType.UPDATE_WORLD);
     editWorldMessage.setContent(description);
     webSocketController.sendMessage(worldId, editWorldMessage);
   }
@@ -66,7 +66,7 @@ public class WorldController {
     worldRepository.save(world);
 
     EditWorldMessage editWorldMessage = new EditWorldMessage();
-    editWorldMessage.setType(EditWorldMessage.MessageType.UPDATE_DESCRIPTION);
+    editWorldMessage.setMessageType(EditWorldMessage.MessageType.UPDATE_WORLD);
     editWorldMessage.setContent("");
     webSocketController.sendMessage(worldId, editWorldMessage);
   }

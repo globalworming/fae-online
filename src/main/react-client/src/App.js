@@ -1,36 +1,69 @@
-
-import React, { Component} from "react";
+import React, {Component} from "react";
 import "./App.css";
 import Chat from './Chat'
 import World from './World'
 import EnterWorld from './EnterWorld'
+import {connect} from 'react-redux'
+import {setWorld, setSockJsClient, addChatMessage} from './actions'
+import SockJsClient from "react-stomp";
 
-class App extends Component{
-
-  state = { }
+class App extends Component {
 
   enterWorld = world => {
     fetch("/" + world + "/id")
         .then(response => {console.log("resp", response); return response.json()})
-        .then(id => fetch("/world/" + id)
-            .then(response => response.json())
-            .then(world => this.setState({world})))
+        .then(id => this.fetchWorld(id))
   };
 
+  fetchWorld = id => {
+    return fetch("/world/" + id)
+        .then(response => response.json())
+        .then(world => this.props.setWorld(world));
+  }
+
+  onMessageReceive = message => {
+    console.log("got message", message);
+    switch (message.messageType) {
+      case "CHAT": {
+        this.props.addChatMessage(message);
+      }
+      case "UPDATE_WORLD": {
+        this.fetchWorld(this.props.world.id)
+      }
+    }
+  };
+
+
   render(){
-    if (!this.state.world) {
+    let props = this.props;
+    console.log("app props:" , props );
+    if (!props.world) {
       return <EnterWorld onSubmitRoom={this.enterWorld}/>
     }
 
-    console.log("got world", this.state.world);
+
+    console.log("got world", props.world);
 
     return(
         <div className="App">
-          <World world={this.state.world}/>
-          <Chat world={this.state.world}/>
+
+          <SockJsClient url="/ws" topics={["/world/" + props.world.id]}
+                        onMessage={ this.onMessageReceive }
+                        ref={ (client) => { this.props.setSockJsClient(client) }}/>
+
+          <World />
+          <Chat/>
         </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = ({world}) => {
+  console.log("app mapStateToProps", {world});
+  return {world};
+}
+
+const mapDispatchToProps = {setWorld, setSockJsClient, addChatMessage};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

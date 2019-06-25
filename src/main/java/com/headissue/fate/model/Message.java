@@ -12,6 +12,7 @@ import java.util.Objects;
 @JsonIgnoreProperties(
     value = {"world"}
 )
+// chat message
 public class Message extends AuditModel {
     private static final long serialVersionUID = 1L;
 
