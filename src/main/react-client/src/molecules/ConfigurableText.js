@@ -27,7 +27,6 @@ class ConfigurableText extends Component {
 
   onSubmit = text => {
     this.props.onSubmit(text);
-    // FIXME yeah redux could be good for that
     this.setState({
       displayed: true,
       editable: false,
@@ -44,8 +43,7 @@ class ConfigurableText extends Component {
   }
 
   render() {
-    console.log("render text", this.state);
-    return <div className={this.props.className}>
+    return <div className={this.props.className} style={{whiteSpace: 'pre-line'}}>
       <h3>world description</h3>
       { this.state.displayed && this.props.text }
       { this.state.editable && <TextForm text={this.props.text} type="textarea"

@@ -8,7 +8,7 @@ class EnterWorld extends Component {
     return (
         <section>
           <form
-              action="."
+              action=".."
               onSubmit={e => {
                 e.preventDefault()
                 this.props.onSubmitRoom(this.state.room)

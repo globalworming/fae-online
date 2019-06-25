@@ -38,6 +38,13 @@ public class ObjectMapperTest {
   }
 
   @Test
+  public void mapCampaign() throws Exception {
+    Campaign campaign = new Campaign();
+    String s = new ObjectMapper().writeValueAsString(campaign);
+    assertThat(s, not(StringContains.containsString("world")));
+  }
+
+  @Test
   public void mapMessage() throws Exception {
     Message message = new Message();
     String s = new ObjectMapper().writeValueAsString(message);

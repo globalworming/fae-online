@@ -1,10 +1,9 @@
 import React, {Component} from "react";
-import "./App.css";
-import Chat from './Chat'
-import World from './World'
-import EnterWorld from './EnterWorld'
+import Chat from '../organisms/Chat'
+import World from '../organisms/World'
+import EnterWorld from '../organisms/EnterWorld'
 import {connect} from 'react-redux'
-import {setWorld, setSockJsClient, addChatMessage} from './actions'
+import {setWorld, setSockJsClient, addChatMessage} from '../redux/actions'
 import SockJsClient from "react-stomp";
 
 class App extends Component {

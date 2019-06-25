@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest()
+@SpringBootTest
 @Transactional
 public class WebSocketControllerTest {
 

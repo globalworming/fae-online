@@ -12,7 +12,7 @@ class ChatInput extends Component {
   render() {
     return (
         <form
-            action="."
+            action=".."
             onSubmit={e => {
               e.preventDefault()
               this.props.onSubmitMessage(this.state.message)

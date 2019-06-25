@@ -1,19 +1,16 @@
 package com.headissue.fate.controller;
 
+import com.headissue.fate.model.Campaign;
 import com.headissue.fate.model.Message;
-import com.headissue.fate.repository.WorldRepository;
-import org.hamcrest.core.Is;
-import org.hamcrest.core.IsNot;
-import org.hamcrest.core.IsNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
@@ -23,16 +20,15 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class MessagesControllerTest {
+public class CampaignControllerTest {
 
   @Autowired
-  private MessagesController messagesController;
+  private CampaignController campaignController;
 
   @Test
-  public void getWorld0Messages() {
-    Collection<Message> messages = this.messagesController.getMessages(0L);
-    assertThat(messages, not(nullValue()));
-    assertThat(messages.size(), is(1));
-    assertThat(messages.stream().findFirst().get().getContent(), is("content0"));
+  public void getWorld0Campaigns() {
+    List<Campaign> campaigns = this.campaignController.getCampaigns(0L);
+    assertThat(campaigns, not(nullValue()));
+    assertThat(campaigns.size(), is(2));
   }
 }

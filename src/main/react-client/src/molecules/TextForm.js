@@ -1,7 +1,4 @@
 import React, { Component } from 'react'
-import ChatInput from './ChatInput'
-import ChatMessage from './ChatMessage'
-import SockJsClient from "react-stomp";
 
 
 class TextForm extends Component {
@@ -14,24 +11,30 @@ class TextForm extends Component {
   }
 
   render() {
+    let props = this.props;
     return (
         <form
-            action="."
+            action=".."
             onSubmit={e => {
               e.preventDefault();
               this.props.onSubmit(this.state.text)
               this.setState({ text: '' })
             }}
         >
-          {// FIXME allow <textarea></textarea>
-          }
-          <input
+          {  props.type == "textarea" && <textarea
               className="e2e-input"
-              type={this.props.type}
               placeholder={'add description'}
               value={this.state.text}
               onChange={e => this.setState({ text: e.target.value })}
           />
+          }
+          { props.type !== "textarea" && <input
+              className="e2e-input"
+              type={props.type}
+              placeholder={'add description'}
+              value={this.state.text}
+              onChange={e => this.setState({ text: e.target.value })}
+          />}
           <input type="submit" value={'Send'} />
           <button className="e2e-cancel" onClick={e => {
             this.props.onCancel(this.props.text);
