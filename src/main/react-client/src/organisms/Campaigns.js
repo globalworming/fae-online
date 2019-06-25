@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import ConfigurableText from "../molecules/ConfigurableText";
 import {connect} from 'react-redux'
-import ChatMessage from "../molecules/ChatMessage";
+import Scenarios from "./Scenarios";
 
 
-class Campaign extends Component {
+class Campaigns extends Component {
 
   state = {
     campaigns: [],
@@ -17,17 +16,29 @@ class Campaign extends Component {
         .then(json => this.setState({campaigns: json})  )
   }
 
+
   render() {
-    console.log("render campaigns", this.state.campaigns);
+    if (this.state.campaigns.length === 0) {
+      return null;
+    }
+    console.log("render campaign", this.state.campaigns[this.state.focus]);
+
     return <section name="campaigns">
       <nav>
         {this.state.campaigns.map((campaign, index) =>
-          <p key={index}>{campaign.name}</p>
+          <p key={index} onClick={() => this.setFocus(index)}>{campaign.name}</p>
         )}
       </nav>
+      <Scenarios campaign={this.state.campaigns[this.state.focus]} />
 
     </section>
 
+  }
+
+  setFocus = index => {
+    let newState = Object.assign({}, this.state);
+    newState.focus = index;
+    this.setState(newState)
   }
 }
 
@@ -35,4 +46,4 @@ const mapStateToProps = ({}) => {
   return {};
 }
 
-export default connect(mapStateToProps)(Campaign);
+export default connect(mapStateToProps)(Campaigns);

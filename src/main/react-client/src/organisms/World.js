@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ConfigurableText from "../molecules/ConfigurableText";
 import {connect} from 'react-redux'
-import Campaign from './Campaign'
+import Campaigns from './Campaigns'
 
 
 class World extends Component {
@@ -25,7 +25,7 @@ class World extends Component {
       <ConfigurableText text={world.description} className="e2e-world-description" onSubmit={this.submitUpdateDescription}/>
 
       </section>
-      <Campaign world={world} />
+      <Campaigns world={world} />
     </React.Fragment>
   }
 }
