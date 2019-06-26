@@ -23,15 +23,17 @@ class Campaigns extends Component {
     }
     console.log("render campaign", this.state.campaigns[this.state.focus]);
 
-    return <section name="campaigns">
-      <nav>
-        {this.state.campaigns.map((campaign, index) =>
-          <p key={index} onClick={() => this.setFocus(index)}>{campaign.name}</p>
-        )}
-      </nav>
+    return <React.Fragment>
+      <section name="campaigns">
+        <h2>campaigns</h2>
+        <nav>
+          {this.state.campaigns.map((campaign, index) =>
+            <p key={index} onClick={() => this.setFocus(index)}>{campaign.name}</p>
+          )}
+        </nav>
+      </section>
       <Scenarios campaign={this.state.campaigns[this.state.focus]} />
-
-    </section>
+    </React.Fragment>
 
   }
 

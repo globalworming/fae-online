@@ -34,16 +34,17 @@ class Scenarios extends Component {
       return null;
     }
 
-    return <section className="scenarios">
-      <nav>
-        {this.state.scenarios.map((scenario, index) =>
-          <p key={index} onClick={() => this.setFocus(index)}>{scenario.name}</p>
-        )}
-      </nav>
+    return <React.Fragment>
+      <section className="scenarios">
+        <h3>scenarios</h3>
+        <nav>
+          {this.state.scenarios.map((scenario, index) =>
+            <p key={index} onClick={() => this.setFocus(index)}>{scenario.name}</p>
+          )}
+        </nav>
+      </section>
       <Scenes scenario={this.state.scenarios[this.state.focus]} />
-
-    </section>
-
+    </React.Fragment>
   }
 
   setFocus = index => {

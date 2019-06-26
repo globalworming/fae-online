@@ -20,15 +20,17 @@ class Scenes extends Component {
       return null;
     }
 
-    return <section className="scenes">
-      <nav>
-        {this.state.scenes.map((scene, index) =>
-          <p key={index} onClick={() => this.setFocus(index)}>{scene.name}</p>
-        )}
-      </nav>
+    return<React.Fragment>
+      <section className="scenes">
+        <nav>
+          <h4>scenes</h4>
+          {this.state.scenes.map((scene, index) =>
+            <p key={index} onClick={() => this.setFocus(index)}>{scene.name}</p>
+          )}
+        </nav>
+      </section>
       <p>focused: {this.state.scenes[this.state.focus].name}</p>
-    </section>
-
+    </React.Fragment>
   }
 
   setFocus = index => {
