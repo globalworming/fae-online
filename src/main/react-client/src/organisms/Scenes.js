@@ -1,47 +1,44 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
+import Scenarios from "./Scenarios";
 
 
 class Scenes extends Component {
 
   state = {
-    scenes: [],
-    focus: 0,
+    focus: undefined,
   };
 
-  componentDidMount() {
-    fetch("/scenario/" + this.props.scenario.id + "/scenes").then(response => response.json())
-        .then(json => this.setState({scenes: json})  )
-  }
+  setFocus = id => {
+    this.setState({focus: id})
+  };
 
   render() {
-    console.log("render scenes", this.state.scenes);
-    if (this.state.scenes.length === 0) {
-      return null;
+    const props = this.props;
+    const focus = this.state.focus;
+    const scenes = props.scenario.scenes;
+
+    console.log("render scenes", "props", props, "state", this.state);
+
+
+    let index = 0;
+    if (focus) {
+      index = scenes.findIndex(e => e.id === focus);
     }
 
-    return<React.Fragment>
+    return <React.Fragment>
       <section className="scenes">
+        <h2>scenes</h2>
         <nav>
-          <h4>scenes</h4>
-          {this.state.scenes.map((scene, index) =>
-            <p key={index} onClick={() => this.setFocus(index)}>{scene.name}</p>
+          {scenes.map((e) =>
+              <p key={e.id} onClick={() => this.setFocus(e.id)}>{e.name}</p>
           )}
         </nav>
       </section>
-      <p>focused: {this.state.scenes[this.state.focus].name}</p>
+      <p>focused: {scenes[index].name}</p>
     </React.Fragment>
-  }
 
-  setFocus = index => {
-    let newState = Object.assign({}, this.state);
-    newState.focus = index;
-    this.setState(newState)
   }
 }
 
-const mapStateToProps = ({}) => {
-  return {};
-}
-
-export default connect(mapStateToProps)(Scenes);
+export default Scenes;

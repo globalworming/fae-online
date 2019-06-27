@@ -1,51 +1,43 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
 import Scenarios from "./Scenarios";
-
 
 class Campaigns extends Component {
 
   state = {
-    campaigns: [],
-    focus: 0,
+    focusStack: undefined,
   };
 
-  componentDidMount() {
-    fetch("/world/" + this.props.world.id + "/campaigns").then(response => response.json())
-       // .then(json => this.props.setMessages(json))
-        .then(json => this.setState({campaigns: json})  )
-  }
-
+  setFocus = id => {
+    this.setState({focus: id})
+  };
 
   render() {
-    if (this.state.campaigns.length === 0) {
-      return null;
+    const props = this.props;
+    const focus = this.state.focus;
+    const campaigns = props.world.campaigns;
+
+    console.log("render campaign", "props", props, "state", this.state);
+
+    let index = 0;
+    if (focus) {
+      index = campaigns.findIndex(campaign => campaign.id === focus);
     }
-    console.log("render campaign", this.state.campaigns[this.state.focus]);
+
+    const campaign = campaigns[index];
 
     return <React.Fragment>
       <section name="campaigns">
         <h2>campaigns</h2>
         <nav>
-          {this.state.campaigns.map((campaign, index) =>
-            <p key={index} onClick={() => this.setFocus(index)}>{campaign.name}</p>
+          {campaigns.map((campaign) =>
+            <p key={campaign.id} onClick={() => this.setFocus(campaign.id)}>{campaign.name}</p>
           )}
         </nav>
       </section>
-      <Scenarios campaign={this.state.campaigns[this.state.focus]} />
+      {campaign.scenarios && <Scenarios campaign={campaign}/>}
     </React.Fragment>
 
   }
-
-  setFocus = index => {
-    let newState = Object.assign({}, this.state);
-    newState.focus = index;
-    this.setState(newState)
-  }
 }
 
-const mapStateToProps = ({}) => {
-  return {};
-}
-
-export default connect(mapStateToProps)(Campaigns);
+export default Campaigns;

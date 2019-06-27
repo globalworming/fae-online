@@ -5,7 +5,6 @@ class ConfigurableText extends Component {
 
   constructor(props) {
     super(props);
-    console.log("props", props);
     this.state = {
       displayed: true,
       editable: false,

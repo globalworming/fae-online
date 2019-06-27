@@ -17,7 +17,7 @@ public class ScenarioController {
   @Autowired
   private ScenarioRepository scenarioRepository;
 
-  @GetMapping("/campaigns/{campaignId}/scenarios")
+  @GetMapping("/campaign/{campaignId}/scenarios")
   public List<Scenario> getScenarios(@PathVariable long campaignId) {
     return scenarioRepository.findByCampaignId(campaignId);
   }

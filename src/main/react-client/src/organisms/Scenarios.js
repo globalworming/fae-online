@@ -1,62 +1,46 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import Scenes from "./Scenes";
+import {setScenarios} from "../redux/actions";
 
 
 class Scenarios extends Component {
 
-  // FIXME only fetch once for every campaign
-
   state = {
-    scenarios: [],
-    focus: 0,
+    focus: undefined,
   };
 
-  fetchData() {
-    fetch("/campaigns/" + this.props.campaign.id + "/scenarios").then(response => response.json())
-    // .then(json => this.props.setMessages(json))
-        .then(json => this.setState({scenarios: json})  )
-  }
-
-  componentDidMount() {
-    this.fetchData()
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.campaign.id !== prevProps.campaign.id) {
-      this.fetchData();
-    }
-  }
+  setFocus = id => {
+    this.setState({focus: id})
+  };
 
   render() {
-    console.log("render scenarios", this.state.scenarios);
-    if (this.state.scenarios.length === 0) {
-      return null;
+    const props = this.props;
+    const focus = this.state.focus;
+    const scenarios = props.campaign.scenarios;
+
+    console.log("render scenarios", "props", props, "state", this.state);
+
+    let index = 0;
+    if (focus) {
+      index = scenarios.findIndex(e => e.id === focus);
     }
+
+    const scenario = scenarios[index];
 
     return <React.Fragment>
       <section className="scenarios">
-        <h3>scenarios</h3>
+        <h2>scenarios</h2>
         <nav>
-          {this.state.scenarios.map((scenario, index) =>
-            <p key={index} onClick={() => this.setFocus(index)}>{scenario.name}</p>
+          {scenarios.map((e) =>
+              <p key={e.id} onClick={() => this.setFocus(e.id)}>{e.name}</p>
           )}
         </nav>
       </section>
-      <Scenes scenario={this.state.scenarios[this.state.focus]} />
+      {scenario.scenes && <Scenes scenario={scenarios[index]}/>}
     </React.Fragment>
-  }
 
-  setFocus = index => {
-    let newState = Object.assign({}, this.state);
-    newState.focus = index;
-    this.setState(newState)
   }
-
 }
 
-const mapStateToProps = ({}) => {
-  return {};
-}
-
-export default connect(mapStateToProps)(Scenarios);
+export default Scenarios;

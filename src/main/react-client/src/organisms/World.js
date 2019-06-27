@@ -25,13 +25,9 @@ class World extends Component {
       <ConfigurableText text={world.description} className="e2e-world-description" onSubmit={this.submitUpdateDescription}/>
 
       </section>
-      <Campaigns world={world} />
+      {world.campaigns && <Campaigns world={world}/>}
     </React.Fragment>
   }
 }
 
-const mapStateToProps = ({world, sockJsClient}) => {
-  return {world, sockJsClient};
-}
-
-export default connect(mapStateToProps)(World);
+export default (World);
