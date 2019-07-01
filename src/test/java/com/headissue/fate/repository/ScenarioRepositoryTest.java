@@ -23,6 +23,6 @@ public class ScenarioRepositoryTest {
   @Test
   public void testScenarioExists() {
     Scenario scenario = scenarioRepository.getOne(0L);
-    assertThat(scenario.getName(), Is.is("scenario 0"));
+    assertThat(scenario.getName(), Is.is("an unexpected visitor"));
   }
 }

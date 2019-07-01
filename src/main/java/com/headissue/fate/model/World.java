@@ -1,18 +1,32 @@
 package com.headissue.fate.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-public class World extends HasCharactersAndAspects implements IsContainer, HasName {
-    
-   private String name;
+@JsonIgnoreProperties(
+    value = {"characters", "hibernateLazyInitializer", "handler"}
+)
+public class World extends AuditModel implements IsContainer, HasName, HasCharacters, HasAspects {
+
    private String description;
+   private String name;
 
    @OneToOne
    private Player gameMaster;
+
+  @OneToMany
+  private Set<Character> characters = new HashSet<>();
+
+  @OneToMany
+  private Set<Aspect> aspects = new HashSet<>();
 
   public String getDescription() {
         return description;
@@ -63,4 +77,24 @@ public class World extends HasCharactersAndAspects implements IsContainer, HasNa
             ", gameMaster=" + gameMaster +
             '}';
     }
+
+  @Override
+  public Set<Character> getCharacters() {
+    return characters;
+  }
+
+  @Override
+  public void setCharacters(Set<Character> characters) {
+    this.characters = characters;
+  }
+
+  @Override
+  public Set<Aspect> getAspects() {
+    return aspects;
+  }
+
+  @Override
+  public void setAspects(Set<Aspect> aspects) {
+    this.aspects = aspects;
+  }
 }

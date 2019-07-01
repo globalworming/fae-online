@@ -2,6 +2,7 @@ package com.headissue.fate.repository;
 
 import com.headissue.fate.model.Aspect;
 import com.headissue.fate.model.Character;
+import org.hamcrest.collection.IsCollectionWithSize;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsCollectionContaining;
 import org.junit.Test;
@@ -24,6 +25,9 @@ public class CharacterRepositoryTest {
   private CharacterRepository characterRepository;
 
   @Autowired
+  private WorldRepository worldRepository;
+
+  @Autowired
   private AspectRepository aspectRepository;
 
   @Test
@@ -36,5 +40,11 @@ public class CharacterRepositoryTest {
     assertThat(aspects, IsCollectionContaining.hasItem(aspectRepository.getOne(3L)));
     assertThat(aspects, IsCollectionContaining.hasItem(aspectRepository.getOne(4L)));
     assertThat(aspects, IsCollectionContaining.hasItem(aspectRepository.getOne(5L)));
+  }
+
+  @Test
+  public void getCharactersForWorld() {
+    Set<Character> characters = worldRepository.getOne(0L).getCharacters();
+    assertThat(characters, IsCollectionWithSize.hasSize(1));
   }
 }

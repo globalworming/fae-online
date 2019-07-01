@@ -2,10 +2,12 @@ package com.headissue.fate.model;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.util.Objects;
+import javax.persistence.OneToMany;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-public class Mook extends HasAspects {
+public class Mook extends AuditModel implements HasAspects{
 
   private String name;
 
@@ -17,6 +19,9 @@ public class Mook extends HasAspects {
 
   @ManyToOne
   private Character belongingTo;
+
+  @OneToMany
+  private Set<Aspect> aspects = new HashSet<>();
 
   public String getName() {
     return name;
@@ -48,5 +53,15 @@ public class Mook extends HasAspects {
 
   public void setBelongingTo(Character belongingTo) {
     this.belongingTo = belongingTo;
+  }
+
+  @Override
+  public Set<Aspect> getAspects() {
+    return aspects;
+  }
+
+  @Override
+  public void setAspects(Set<Aspect> aspects) {
+    this.aspects = aspects;
   }
 }

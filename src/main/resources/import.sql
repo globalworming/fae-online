@@ -39,6 +39,7 @@ insert into character_aspects VALUES (0, 3);
 insert into character_aspects VALUES (0, 4);
 insert into character_aspects VALUES (0, 5);
 
+insert into world_characters VALUES (0, 0);
 
 insert into aspect VALUES (6, now(), now(), 'my bow is infused with light', 0, false, 0);
 

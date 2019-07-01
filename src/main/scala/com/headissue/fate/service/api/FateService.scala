@@ -1,6 +1,8 @@
 package com.headissue.fate.service.api
 
-import com.headissue.fate.model.{IsContent, World}
+import com.headissue.fate.model.{Character, HasCharacters, IsContent, World}
+
+import scala.collection.mutable.Buffer
 
 trait FateService {
 
@@ -22,4 +24,12 @@ trait FateService {
   def updateWorldDescription(world: World, newDescription: String): World
 
   def addContent(content: IsContent): IsContent
+
+  def createCharacter: Character
+
+  def addCharacterTo(hasCharacters: HasCharacters, character: Character)
+
+  def getCharacters(hasCharacters: HasCharacters): Buffer[Character]
+
+
 }

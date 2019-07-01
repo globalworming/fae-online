@@ -1,15 +1,21 @@
 package com.headissue.fate.service;
 
 import com.headissue.fate.model.Campaign;
+import com.headissue.fate.model.Character;
+import com.headissue.fate.model.HasCharacters;
 import com.headissue.fate.model.IsContent;
 import com.headissue.fate.model.World;
 import com.headissue.fate.service.api.FateService;
 import org.junit.Test;
+import scala.collection.mutable.Buffer;
 import screenplay.IntegrationTestBase;
 
-import java.util.UUID;
+import java.util.List;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static scala.jdk.CollectionConverters.BufferHasAsJava;
+
 
 public class ServiceTest extends IntegrationTestBase implements FateService {
 
@@ -57,8 +63,47 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
     return fateService.addContent(content);
   }
 
-  private String randomName() {
-    return UUID.randomUUID().toString();
+  @Test
+  public void testCreateCharacter() {
+    assertThat(createCharacter().getId()).isNotNull();
+  }
+
+  @Override
+  public Character createCharacter() {
+    return fateService.createCharacter();
+  }
+
+  @Test
+  public void addCharacterToWorld() {
+    String name = randomName();
+    World enteredWorld = enterWorld(name);
+    assertThat(asJava(getCharacters(enteredWorld))).size().isEqualTo(0);
+
+    Character character = createCharacter();
+    addCharacterTo(enteredWorld, character);
+
+    List<Character> characters = asJava(getCharacters(enteredWorld));
+    assertThat(characters).containsOnly(character);
+  }
+
+  private List<Character> asJava(Buffer<Character> characters) {
+    return (List<Character>) BufferHasAsJava(characters).asJava();
+  }
+
+  @Override
+  public void addCharacterTo(HasCharacters hasCharacters, Character character) {
+    fateService.addCharacterTo(hasCharacters, character);
+  }
+
+  @Test
+  public void getCharacters() {
+    List<Character> characters = asJava(getCharacters(enterWorld("world 0")));
+    assertThat(characters).size().isEqualTo(1);
+  }
+
+  @Override
+  public Buffer<Character> getCharacters(HasCharacters hasCharacters) {
+    return fateService.getCharacters(hasCharacters);
   }
 
 }

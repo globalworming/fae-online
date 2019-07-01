@@ -23,6 +23,6 @@ public class SceneRepositoryTest {
   @Test
   public void testSceneExists() {
     Scene scene = sceneRepository.getOne(0L);
-    assertThat(scene.getName(), Is.is("scene 0"));
+    assertThat(scene.getName(), Is.is("kratos home"));
   }
 }

@@ -2,8 +2,6 @@ package com.headissue.fate.model;
 
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.HashSet;
@@ -11,16 +9,14 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class Character extends HasAspects {
+public class Character extends AuditModel implements HasAspects {
     
     private String name;
 
     @OneToOne
-    //@JoinColumn(name = "high_concept_aspect_id")
     private Aspect highConcept;
 
     @OneToOne
-    //@JoinColumn(name = "dilemma_aspect_id")
     private Aspect dilemma;
 
     @OneToMany
@@ -41,6 +37,9 @@ public class Character extends HasAspects {
 
     @OneToMany
     private Set<MeasurableAspect> consequences = new HashSet<>();
+
+    @OneToMany
+    private Set<Aspect> aspects = new HashSet<>();
 
     public String getName() {
         return name;
@@ -123,6 +122,16 @@ public class Character extends HasAspects {
     }
 
     @Override
+    public Set<Aspect> getAspects() {
+        return aspects;
+    }
+
+    @Override
+    public void setAspects(Set<Aspect> aspects) {
+        this.aspects = aspects;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -159,4 +168,5 @@ public class Character extends HasAspects {
             ", consequences=" + consequences +
             '}';
     }
+
 }

@@ -15,6 +15,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.transaction.annotation.Transactional;
 import screenplay.abilities.SendHttpRequests;
 
+import java.util.UUID;
+
 @RunWith(SerenityRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
@@ -37,6 +39,8 @@ public abstract class IntegrationTestBase {
     newUser.remember("PORT", port);
   }
 
-
+  protected final String randomName() {
+    return UUID.randomUUID().toString();
+  }
 
 }

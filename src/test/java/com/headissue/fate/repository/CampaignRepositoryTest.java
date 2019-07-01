@@ -23,6 +23,6 @@ public class CampaignRepositoryTest {
   @Test
   public void testCampaignExists() {
     Campaign campaign = campaignRepository.getOne(0L);
-    assertThat(campaign.getName(), Is.is("campaign 0"));
+    assertThat(campaign.getName(), Is.is("spread the ashes"));
   }
 }
