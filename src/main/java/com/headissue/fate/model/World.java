@@ -2,8 +2,10 @@ package com.headissue.fate.model;
 
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class World extends HasCharactersAndAspects {
@@ -14,7 +16,7 @@ public class World extends HasCharactersAndAspects {
    @OneToOne
    private Player gameMaster;
 
-    public String getDescription() {
+  public String getDescription() {
         return description;
     }
 

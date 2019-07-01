@@ -24,8 +24,22 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
     assertThat(enteredWorld.getName()).isEqualTo(name);
   }
 
+  @Override
   public World enterWorld(String worldName) {
     return fateService.enterWorld(worldName);
+  }
+
+  @Test
+  public void updateWorldDescription() {
+    String name = randomName();
+    World updatedWorld = updateWorldDescription(enterWorld(name), "describe " + name);
+    assertThat(updatedWorld.getDescription()).isEqualTo("describe " + name);
+    assertThat(enterWorld(name).getDescription()).isEqualTo("describe " + name);
+  }
+
+  @Override
+  public World updateWorldDescription(World world, String newDescription) {
+    return fateService.updateWorldDescription(world, newDescription);
   }
 
   private String randomName() {

@@ -12,10 +12,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.transaction.annotation.Transactional;
 import screenplay.abilities.SendHttpRequests;
 
 @RunWith(SerenityRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Transactional
 public abstract class IntegrationTestBase {
 
   @Autowired

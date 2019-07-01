@@ -11,9 +11,6 @@ public class Scenario extends HasCharactersAndAspects {
   @OneToOne
   private Campaign campaign;
 
-  @OneToMany
-  private Set<Scene> scenes;
-
   private String name;
 
   public String getName() {
@@ -32,11 +29,4 @@ public class Scenario extends HasCharactersAndAspects {
     this.campaign = campaign;
   }
 
-  public Set<Scene> getScenes() {
-    return scenes;
-  }
-
-  public void setScenes(Set<Scene> scenes) {
-    this.scenes = scenes;
-  }
 }

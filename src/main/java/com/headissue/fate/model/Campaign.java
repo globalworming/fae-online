@@ -11,9 +11,6 @@ public class Campaign extends HasCharactersAndAspects {
   @OneToOne
   private World world;
 
-  @OneToMany
-  private Set<Scenario> scenario;
-
   private String name;
 
   public String getName() {
@@ -32,11 +29,4 @@ public class Campaign extends HasCharactersAndAspects {
     this.world = world;
   }
 
-  public Set<Scenario> getScenario() {
-    return scenario;
-  }
-
-  public void setScenario(Set<Scenario> scenario) {
-    this.scenario = scenario;
-  }
 }
