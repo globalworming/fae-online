@@ -1,6 +1,6 @@
 package com.headissue.fate.service.api
 
-import com.headissue.fate.model.{Character, HasCharacters, IsContent, World}
+import com.headissue.fate.model.{Aspect, Character, HasAspects, HasCharacters, IsContent, World}
 
 import scala.collection.mutable
 
@@ -27,9 +27,22 @@ trait FateService {
 
   def createCharacter: Character
 
+  def updateCharacter(character: Character): Character
+
   def addCharacterTo(hasCharacters: HasCharacters, character: Character): Character
 
   def getCharacters(hasCharacters: HasCharacters): mutable.Buffer[Character]
 
+  def createAspect: Aspect
+
+  def addAspectTo(hasAspects: HasAspects, aspect: Aspect): Aspect
+
+  def updateAspect(aspect: Aspect): Aspect
+
+  def getAspects(hasAspects: HasAspects): mutable.Buffer[Aspect]
+
+  def removeAspectFrom(hasAspects: HasAspects, aspect: Aspect): Aspect
+
+  def changeAspectToCharacter(aspect: Aspect, hasAspects: HasAspects, hasCharacters: HasCharacters): Character
 
 }

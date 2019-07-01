@@ -5,7 +5,7 @@ import javax.persistence.OneToOne;
 import java.util.Objects;
 
 @Entity
-public class Aspect extends AuditModel{
+public class Aspect extends AuditModel implements HasName {
 
     @OneToOne
     private Character discoveredBy;
@@ -14,14 +14,16 @@ public class Aspect extends AuditModel{
     
     private boolean isBuff;
 
-    private String description;
+    private String name;
 
-    public String getDescription() {
-        return description;
+    @Override
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Character getDiscoveredBy() {
@@ -55,22 +57,27 @@ public class Aspect extends AuditModel{
         Aspect aspect = (Aspect) o;
         return freeInvocations == aspect.freeInvocations &&
             isBuff == aspect.isBuff &&
-            Objects.equals(discoveredBy.getId(), aspect.discoveredBy.getId()) &&
-            Objects.equals(description, aspect.description);
+            Objects.equals(discoveredBy, aspect.discoveredBy) &&
+            Objects.equals(name, aspect.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(discoveredBy.getId(), freeInvocations, isBuff, description);
+        return Objects.hash(discoveredBy != null ? discoveredBy.getId() : null, freeInvocations, isBuff, name);
     }
 
     @Override
     public String toString() {
         return "Aspect{" +
-            "discoveredBy=" + discoveredBy.getId() +
+            "discoveredBy=" + discoveredBy != null ? String.valueOf(discoveredBy.getId()) : null +
             ", freeInvocations=" + freeInvocations +
             ", isBuff=" + isBuff +
-            ", description='" + description + '\'' +
+            ", name='" + name + '\'' +
             '}';
+    }
+
+    // FIXME h7e objectsetter ?
+    public void update(Aspect aspect) {
+        this.name = aspect.name;
     }
 }

@@ -23,12 +23,14 @@ insert into scene VALUES (7, now(), now(), 'tunnel to the lair', 3);
 
 insert into character VALUES (0, now(), now(), 3, 'kratos', 3, 3, 'i get +2 when forcefully attacking in melee; once a session i can rage', null, null, null);
 
-insert into aspect VALUES (0, now(), now(), 'aspect 0', 0, false, 0);
-insert into aspect VALUES (1, now(), now(), 'i am the god of war', 0, false, 0);
-insert into aspect VALUES (2, now(), now(), 'my boy', 0, false, 0);
-insert into aspect VALUES (3, now(), now(), 'approach forcefully', 0, false, 0);
-insert into aspect VALUES (4, now(), now(), 'i say "boy" a lot', 0, false, 0);
-insert into aspect VALUES (5, now(), now(), 'i carry my dead wife s ashes', 0, false, 0);
+
+insert into aspect VALUES (0, now(), now(), 0, false, 'aspect 0', 0);
+insert into aspect VALUES (1, now(), now(), 0, false, 'i am the god of war', 0);
+insert into aspect VALUES (2, now(), now(), 0, false, 'my boy', 0);
+insert into aspect VALUES (3, now(), now(), 0, false, 'approach forcefully', 0);
+insert into aspect VALUES (4, now(), now(), 0, false, 'i say "boy" a lot', 0);
+insert into aspect VALUES (5, now(), now(), 0, false, 'i carry my dead wife s ashes', 0);
+insert into aspect VALUES (6, now(), now(), 0, false, 'my bow is infused with light', 0);
 
 insert into measurable_aspect VALUES (0, now(), now(), 4, 3);
 
@@ -40,8 +42,6 @@ insert into character_aspects VALUES (0, 4);
 insert into character_aspects VALUES (0, 5);
 
 insert into world_characters VALUES (0, 0);
-
-insert into aspect VALUES (6, now(), now(), 'my bow is infused with light', 0, false, 0);
 
 insert into mook VALUES (0, now(), now(), 'composure', 'shooting with the bow', 'Boy', 2, 0);
 

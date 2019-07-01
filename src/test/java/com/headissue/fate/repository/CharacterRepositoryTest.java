@@ -34,7 +34,7 @@ public class CharacterRepositoryTest {
   public void testCharacterExists() {
     Character character = characterRepository.getOne(0L);
     assertThat(character.getName(), Is.is("kratos"));
-    assertThat(character.getHighConcept().getDescription(), Is.is("i am the god of war"));
+    assertThat(character.getHighConcept().getName(), Is.is("i am the god of war"));
     Set<Aspect> aspects = character.getAspects();
     assertThat(aspects.size(), Is.is(3));
     assertThat(aspects, IsCollectionContaining.hasItem(aspectRepository.getOne(3L)));
