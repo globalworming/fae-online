@@ -6,27 +6,30 @@ import javax.persistence.OneToOne;
 import java.util.Set;
 
 @Entity
-public class Scenario extends HasCharactersAndAspects {
+public class Scenario extends HasCharactersAndAspects implements IsContent, HasName, IsContainer {
 
   @OneToOne
   private Campaign campaign;
 
   private String name;
 
+  @Override
   public String getName() {
     return name;
   }
 
+  @Override
   public void setName(String name) {
     this.name = name;
   }
 
-  public Campaign getCampaign() {
+  @Override
+  public IsContainer getContainer() {
     return campaign;
   }
 
-  public void setCampaign(Campaign campaign) {
-    this.campaign = campaign;
-  }
+  @Override
+  public void setContainer(IsContainer container) {
 
+  }
 }

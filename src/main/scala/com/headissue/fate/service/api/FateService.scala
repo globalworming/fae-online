@@ -1,6 +1,6 @@
 package com.headissue.fate.service.api
 
-import com.headissue.fate.model.{Campaign, Player, World}
+import com.headissue.fate.model.{IsContent, World}
 
 trait FateService {
 
@@ -21,5 +21,5 @@ trait FateService {
 
   def updateWorldDescription(world: World, newDescription: String): World
 
-
+  def addContent(content: IsContent): IsContent
 }

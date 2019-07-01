@@ -1,6 +1,6 @@
 insert into player VALUES (0, now(), now(), 'player 0');
 
-insert into world VALUES (0, now(), now(), 'description of world 0', 'world 0', 0);
+insert into container VALUES (0, now(), now(), 'description of container 0', 'container 0', 0);
 
 insert into message VALUES (0, now(), now(), 'content0', 'chat', 'sender0', 0);
 

@@ -2,13 +2,11 @@ package com.headissue.fate.model;
 
 
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
-public class World extends HasCharactersAndAspects {
+public class World extends HasCharactersAndAspects implements IsContainer, HasName {
     
    private String name;
    private String description;
@@ -24,10 +22,12 @@ public class World extends HasCharactersAndAspects {
         this.description = description;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }

@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Scene extends HasCharactersAndAspects {
+public class Scene extends HasCharactersAndAspects  implements IsContent, HasName, IsContainer {
 
   private String name;
 
@@ -20,11 +20,13 @@ public class Scene extends HasCharactersAndAspects {
     this.name = name;
   }
 
-  public Scenario getScenario() {
+  @Override
+  public IsContainer getContainer() {
     return scenario;
   }
 
-  public void setScenario(Scenario scenario) {
-    this.scenario = scenario;
+  @Override
+  public void setContainer(IsContainer container) {
+
   }
 }
