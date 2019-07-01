@@ -1,14 +1,25 @@
 insert into player VALUES (0, now(), now(), 'player 0');
 
-insert into container VALUES (0, now(), now(), 'description of container 0', 'container 0', 0);
+insert into world VALUES (0, now(), now(), 'description of world 0', 'world 0', 0);
 
 insert into message VALUES (0, now(), now(), 'content0', 'chat', 'sender0', 0);
 
-insert into campaign VALUES (0, now(), now(), 'campaign 0', 0);
+insert into campaign VALUES (0, now(), now(), 'spread the ashes', 0);
+insert into campaign VALUES (1, now(), now(), 'lokis awakening', 0);
 
-insert into scenario VALUES (0, now(), now(), 'scenario 0', 0);
+insert into scenario VALUES (0, now(), now(), 'an unexpected visitor', 0);
+insert into scenario VALUES (1, now(), now(), 'the journey begins', 0);
+insert into scenario VALUES (2, now(), now(), 'the true name', 1);
+insert into scenario VALUES (3, now(), now(), 'big footsteps', 1);
 
-insert into scene VALUES (0, now(), now(), 'scene 0', 0);
+insert into scene VALUES (0, now(), now(), 'kratos home', 0);
+insert into scene VALUES (1, now(), now(), 'the edge of the tree circle', 0);
+insert into scene VALUES (2, now(), now(), 'forest entrance', 1);
+insert into scene VALUES (3, now(), now(), 'dwarven shop', 1);
+insert into scene VALUES (4, now(), now(), 'on top of the mountain', 2);
+insert into scene VALUES (5, now(), now(), 'travelling down the mine', 2);
+insert into scene VALUES (6, now(), now(), 'plain with dragons footsteps', 3);
+insert into scene VALUES (7, now(), now(), 'tunnel to the lair', 3);
 
 insert into character VALUES (0, now(), now(), 3, 'kratos', 3, 3, 'i get +2 when forcefully attacking in melee; once a session i can rage', null, null, null);
 
