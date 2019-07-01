@@ -1,10 +1,9 @@
-package com.headissue.fate.e2e.screenplay.actions;
+package screenplay.actions;
 
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Performable;
 import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Enter;
-import org.openqa.selenium.Keys;
 
 public class EditButCancelWorldDescription implements Performable {
 

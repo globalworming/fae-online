@@ -1,6 +1,6 @@
 package com.headissue.fate.controller;
 
-import com.headissue.fate.e2e.TestBase;
+import screenplay.E2ETestBase;
 import com.headissue.fate.model.Message;
 import com.headissue.fate.model.World;
 import org.hamcrest.Matchers;
@@ -32,7 +32,7 @@ public class WebSocketControllerTest {
 
   @Test
   public void createMessageForWorld() {
-    long id = worldController.getWorldId(TestBase.randomWorld().getName());
+    long id = worldController.getWorldByName(E2ETestBase.randomWorld().getName()).getId();
     World world = worldController.getWorld(id);
     Message chatMessage = new Message();
     chatMessage.setContent("content");

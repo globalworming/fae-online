@@ -1,13 +1,11 @@
-package com.headissue.fate.e2e;
+package screenplay;
 
-import com.headissue.fate.e2e.screenplay.questions.SevereConsoleLogs;
+import screenplay.questions.SevereConsoleLogs;
 import com.headissue.fate.model.World;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.thucydides.core.annotations.ClearCookiesPolicy;
 import net.thucydides.core.annotations.Managed;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -15,7 +13,6 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.logging.LogEntry;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,7 +23,7 @@ import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.GivenWhenThen.then;
 import static org.junit.Assert.fail;
 
-public abstract class TestBase {
+public abstract class E2ETestBase {
 
   @Rule
   public ThereShouldBeNoSevereJavascriptErrors rule = new ThereShouldBeNoSevereJavascriptErrors();

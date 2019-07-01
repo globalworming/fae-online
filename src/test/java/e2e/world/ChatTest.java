@@ -1,35 +1,28 @@
-package com.headissue.fate.e2e.tests.world;
+package e2e.world;
 
-import com.headissue.fate.e2e.TestBase;
-import com.headissue.fate.e2e.screenplay.actions.EntersWorld;
-import com.headissue.fate.e2e.screenplay.actions.PostsChatMessage;
-import com.headissue.fate.e2e.screenplay.page.HomePage;
-import com.headissue.fate.model.World;
+import screenplay.E2ETestBase;
+import screenplay.actions.EntersWorld;
+import screenplay.actions.PostsChatMessage;
+import screenplay.page.HomePage;
 import net.serenitybdd.core.pages.WebElementState;
 import net.serenitybdd.junit.runners.SerenityRunner;
-import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.EventualConsequence;
-import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.serenitybdd.screenplay.matchers.WebElementStateMatchers;
 import net.serenitybdd.screenplay.questions.WebElementQuestion;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.hamcrest.core.IsNot;
-import org.openqa.selenium.WebDriver;
 
 import java.util.Random;
 import java.util.UUID;
 
-import static com.headissue.fate.e2e.tests.world.WorldTest.NAME_OF_TESTWORLD;
+import static e2e.world.WorldTest.NAME_OF_TESTWORLD;
 import static net.serenitybdd.screenplay.EventualConsequence.eventually;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.GivenWhenThen.then;
 
 @RunWith(SerenityRunner.class)
-public class ChatTest extends TestBase {
+public class ChatTest extends E2ETestBase {
 
   @Test
   public void postToSameWorld() {

@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FateApplicationTests {
+public class FateApplicationTest {
 
 	@Autowired
 	MessagesController messagesController;

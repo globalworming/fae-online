@@ -10,16 +10,17 @@ import SockJsClient from "react-stomp";
 class App extends Component {
 
   enterWorld = world => {
-    fetch("/" + world + "/id")
+    fetch("/service/enterWorld/" + world)
         .then(response => {console.log("resp", response); return response.json()})
-        .then(id => this.fetchWorld(id))
+        .then(world => this.props.setWorld(world));
   };
 
+
   fetchWorld = id => {
-    return fetch("/world/" + id)
+    fetch("/world/" + id)
         .then(response => response.json())
         .then(world => this.props.setWorld(world));
-  }
+  };
 
   onMessageReceive = message => {
     console.log("got message", message);

@@ -1,9 +1,9 @@
-package com.headissue.fate.e2e.tests.world;
+package e2e.world;
 
-import com.headissue.fate.e2e.TestBase;
-import com.headissue.fate.e2e.screenplay.actions.EditButCancelWorldDescription;
-import com.headissue.fate.e2e.screenplay.actions.EntersWorld;
-import com.headissue.fate.e2e.screenplay.actions.UpdatesWorldDescription;
+import screenplay.E2ETestBase;
+import screenplay.actions.EditButCancelWorldDescription;
+import screenplay.actions.EntersWorld;
+import screenplay.actions.UpdatesWorldDescription;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.screenplay.matchers.WebElementStateMatchers;
 import net.serenitybdd.screenplay.questions.WebElementQuestion;
@@ -18,7 +18,7 @@ import static net.serenitybdd.screenplay.GivenWhenThen.then;
 import static net.serenitybdd.screenplay.GivenWhenThen.when;
 
 @RunWith(SerenityRunner.class)
-public class WorldTest extends TestBase {
+public class WorldTest extends E2ETestBase {
 
   public static final String NAME_OF_TESTWORLD = "world 0";
   public static final long ID_OF_TESTWORLD = 0;

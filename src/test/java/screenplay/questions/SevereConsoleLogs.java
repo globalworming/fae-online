@@ -1,4 +1,4 @@
-package com.headissue.fate.e2e.screenplay.questions;
+package screenplay.questions;
 
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;

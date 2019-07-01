@@ -1,4 +1,4 @@
-package com.headissue.fate.e2e.screenplay.page;
+package screenplay.page;
 
 import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.DefaultUrl;

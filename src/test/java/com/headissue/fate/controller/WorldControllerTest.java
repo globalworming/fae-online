@@ -1,7 +1,5 @@
 package com.headissue.fate.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.headissue.fate.model.World;
 import com.headissue.fate.repository.WorldRepository;
 import org.hamcrest.core.Is;
@@ -15,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static com.headissue.fate.e2e.tests.world.WorldTest.ID_OF_TESTWORLD;
-import static com.headissue.fate.e2e.tests.world.WorldTest.NAME_OF_TESTWORLD;
+import static e2e.world.WorldTest.ID_OF_TESTWORLD;
+import static e2e.world.WorldTest.NAME_OF_TESTWORLD;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -33,7 +31,7 @@ public class WorldControllerTest {
 
   @Test
   public void getWorldId() throws Exception {
-    long actual = this.worldController.getWorldId(NAME_OF_TESTWORLD);
+    long actual = this.worldController.getWorldByName(NAME_OF_TESTWORLD).getId();
     long expected = 0;
     assertThat(actual, Is.is(expected));
   }
@@ -48,7 +46,7 @@ public class WorldControllerTest {
   @Test
   public void updateWorldDescription() {
     UUID uuid = UUID.randomUUID();
-    long worldId = this.worldController.getWorldId(uuid.toString());
+    long worldId = this.worldController.getWorldByName(uuid.toString()).getId();
     assertThat(this.worldRepository.findById(worldId).orElse(null).getDescription(),
         IsNull.nullValue());
     this.worldController.putWorldDescription(worldId, "description" + uuid.toString());
@@ -60,7 +58,7 @@ public class WorldControllerTest {
   public void getWorldCreatesWorld() throws Exception {
     UUID uuid = UUID.randomUUID();
     assertThat(this.worldRepository.findByName(uuid.toString()), IsNull.nullValue());
-    this.worldController.getWorldId(uuid.toString());
+    this.worldController.getWorldByName(uuid.toString()).getId();
     assertThat(this.worldRepository.findByName(uuid.toString()).getName(), Is.is(uuid.toString()));
   }
 }

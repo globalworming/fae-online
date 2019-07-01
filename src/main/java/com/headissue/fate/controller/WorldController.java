@@ -27,8 +27,8 @@ public class WorldController {
   @Autowired
   private WebSocketController webSocketController;
 
-  @GetMapping("/{worldName}/id")
-  public long getWorldId (@PathVariable String worldName) {
+  @GetMapping("/world/byName/{worldName}")
+  public World getWorldByName(@PathVariable String worldName) {
     World world = worldRepository.findByName(worldName);
     if (world == null) {
       World newWorld = new World();
@@ -39,11 +39,11 @@ public class WorldController {
       newWorld.setGameMaster(gameMaster);
       world = worldRepository.save(newWorld);
     }
-    return world.getId();
+    return world;
   }
 
   @GetMapping("/world/{worldId}")
-  public World getWorld (@PathVariable long worldId) {
+  public World getWorld(@PathVariable long worldId) {
     return worldRepository.findById(worldId).orElse(null);
   }
 
