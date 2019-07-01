@@ -4,11 +4,11 @@ import java.util
 
 import com.headissue.fate.controller.{MessagesController, WorldController}
 import com.headissue.fate.model.{Campaign, Character, HasCharacters, IsContent, Scenario, Scene, World}
-import com.headissue.fate.repository.{CampaignRepository, CharacterRepository, ScenarioRepository, SceneRepository, WorldRepository}
+import com.headissue.fate.repository._
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Service
 
-import scala.collection.mutable._
+import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
 @Service
@@ -47,38 +47,39 @@ class FateService(
   }
 
 
-  override def addCharacterTo(hasCharacters: HasCharacters, character: Character) = {
+  override def addCharacterTo(hasCharacters: HasCharacters, character: Character): Character = {
     hasCharacters match {
       case world: World => addCharacterToWorld(world, character)
       case campaign: Campaign => addCharacterToCampaign(campaign, character)
     }
+    character
   }
 
-  def addCharacterToWorld(world: World, character: Character) = {
+  def addCharacterToWorld(world: World, character: Character): World = {
     val w = worldRepository.getOne(world.getId)
     w.getCharacters.add(character)
     worldRepository.save(w)
   }
-  def addCharacterToCampaign(campaign: Campaign, character: Character) = {
+  def addCharacterToCampaign(campaign: Campaign, character: Character): Campaign = {
     val c = campaignRepository.getOne(campaign.getId)
     c.getCharacters.add(character)
     campaignRepository.save(c)
   }
 
 
-  override def getCharacters(hasCharacters: HasCharacters): Buffer[Character] = {
+  override def getCharacters(hasCharacters: HasCharacters): mutable.Buffer[Character] = {
     hasCharacters match {
       case world: World => getCharacters(world)
       case campaign: Campaign => getCharacters(campaign)
     }
   }
 
-  def getCharacters(campaign: Campaign): Buffer[Character] = {
+  def getCharacters(campaign: Campaign): mutable.Buffer[Character] = {
     new util.ArrayList[Character](campaignRepository.getOne(campaign.getId)
       .getCharacters).asScala
   }
 
-  def getCharacters(world: World): Buffer[Character] = {
+  def getCharacters(world: World): mutable.Buffer[Character] = {
     new util.ArrayList[Character](worldRepository.getOne(world.getId)
       .getCharacters).asScala
   }

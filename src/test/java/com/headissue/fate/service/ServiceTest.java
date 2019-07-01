@@ -91,8 +91,8 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
   }
 
   @Override
-  public void addCharacterTo(HasCharacters hasCharacters, Character character) {
-    fateService.addCharacterTo(hasCharacters, character);
+  public Character addCharacterTo(HasCharacters hasCharacters, Character character) {
+    return fateService.addCharacterTo(hasCharacters, character);
   }
 
   @Test

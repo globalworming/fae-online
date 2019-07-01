@@ -2,7 +2,7 @@ package com.headissue.fate.service.api
 
 import com.headissue.fate.model.{Character, HasCharacters, IsContent, World}
 
-import scala.collection.mutable.Buffer
+import scala.collection.mutable
 
 trait FateService {
 
@@ -27,9 +27,9 @@ trait FateService {
 
   def createCharacter: Character
 
-  def addCharacterTo(hasCharacters: HasCharacters, character: Character)
+  def addCharacterTo(hasCharacters: HasCharacters, character: Character): Character
 
-  def getCharacters(hasCharacters: HasCharacters): Buffer[Character]
+  def getCharacters(hasCharacters: HasCharacters): mutable.Buffer[Character]
 
 
 }
