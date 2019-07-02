@@ -1,10 +1,12 @@
 package com.headissue.fate.service
 
 import java.util
+import java.util.Collections
 
 import com.headissue.fate.controller.{MessagesController, WorldController}
-import com.headissue.fate.model.{Aspect, Campaign, Actor, HasAspects, HasCharacters, IsContent, Mook, Scenario, Scene, World}
+import com.headissue.fate.model.{Actor, Aspect, Campaign, HasAspects, HasCharacters, IsContainer, IsContent, Mook, Scenario, Scene, World}
 import com.headissue.fate.repository._
+import org.springframework.data.domain.Example
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Service
 
@@ -24,7 +26,7 @@ class FateService(
                    messagesController: MessagesController
 ) extends api.FateService {
 
-  override def enterWorld(name: String): World = worldController.getWorldByName(name)
+  override def getWorldInfo(name: String): World = worldController.getWorldByName(name)
 
   override def updateWorldDescription(world: World, newDescription: String): World = {
     val storedWorld = worldRepository.getOne(world.getId)
@@ -53,16 +55,15 @@ class FateService(
     val hasCharacters = jpaRepository.getOne(hasCharactersId)
     hasCharacters.getActors.add(character)
     characterRepository.save(character)
-    jpaRepository.save(hasCharacters)
     character
   }
 
-  override def addCharacterTo(hasCharacters: HasCharacters, character: Actor): Actor = {
+  override def addRoleTo(hasCharacters: HasCharacters, role: Actor): Actor = {
     hasCharacters match {
-      case world: World => addCharacterTo(world.getId, worldRepository.asInstanceOf[JpaRepository[HasCharacters, Long]], character)
-      //case campaign: Campaign => addCharacterToCampaign(campaign, character)
+      case world: World => addCharacterTo(world.getId, worldRepository.asInstanceOf[JpaRepository[HasCharacters, Long]], role)
+      //case campaign: Campaign => addCharacterToCampaign(campaign, character) ...
     }
-    character
+    role
   }
 
   def addCharacterToWorld(world: World, character: Actor): World = {
@@ -95,15 +96,16 @@ class FateService(
   }
 
   override def addAspectTo(hasAspects: HasAspects, aspect: Aspect): Aspect = {
+    val storedAspect = aspectRepository.save(aspect)
     hasAspects match {
-      case world: World => addAspectTo(world.getId, worldRepository.asInstanceOf[JpaRepository[HasAspects, Long]], aspect)
+      case world: World => addAspectTo(world.getId, worldRepository.asInstanceOf[JpaRepository[HasAspects, Long]], storedAspect)
       /*case campaign: Campaign => addAspectTo(campaignRepository, aspect)
       case scenario: Scenario => addAspectTo(sceneRepository, aspect)
       case scene: Scene => addAspect(sceneRepository, aspect)
       case character: Character => addAspectT(characterRepository, aspect)
       case mook: Mook => addAspectTo(mookRepository, aspect)*/
     }
-    aspect
+    storedAspect
   }
 
   private def addAspectTo(hasAspectsId: Long, repository: JpaRepository[HasAspects, Long], aspect: Aspect): Aspect = {
@@ -143,7 +145,7 @@ class FateService(
     val character = new Actor
     character.setName(aspect.getName)
     removeAspectFrom(hasAspects, aspect)
-    addCharacterTo(hasCharacters, character)
+    addRoleTo(hasCharacters, character)
   }
 
   override def updateCharacter(character: Actor): Actor = {
@@ -154,10 +156,6 @@ class FateService(
     val storedAspect = aspectRepository.getOne(aspect.getId)
     storedAspect.update(aspect)
     aspectRepository.save(aspect)
-  }
-
-  override def createAspect: Aspect = {
-    aspectRepository.save(new Aspect())
   }
 
   def createAspect(name: String): Aspect = {
@@ -177,4 +175,42 @@ class FateService(
   override def updateMook(mook: Mook): Mook = {
     mookRepository.save(mook)
   }
+
+  override def createWorld(name: String): World = {
+    worldRepository.save(new World(name))
+  }
+
+  override def setWorldInfo(world: World): World = {
+    val storedWorld = worldRepository.getOne(world.getId)
+    storedWorld.setContent(world.getContent)
+    storedWorld
+  }
+
+  override def createContent(content: IsContent, container: IsContainer): IsContent = {
+    content match {
+      case campaign: Campaign =>
+        createContent(campaign, container,
+          campaignRepository.asInstanceOf[JpaRepository[IsContent, Long]],
+          worldRepository.asInstanceOf[JpaRepository[IsContainer, Long]])
+      case scenario: Scenario =>
+        createContent(scenario, container,
+          scenarioRepository.asInstanceOf[JpaRepository[IsContent, Long]],
+          campaignRepository.asInstanceOf[JpaRepository[IsContainer, Long]])
+      case scene: Scene =>
+        createContent(scene, container,
+          sceneRepository.asInstanceOf[JpaRepository[IsContent, Long]],
+          scenarioRepository.asInstanceOf[JpaRepository[IsContainer, Long]])
+    }
+  }
+
+  def createContent(content: IsContent, container: IsContainer, contentRepository: JpaRepository[IsContent, Long],
+                    containerRepository: JpaRepository[IsContainer, Long]): IsContent = {
+
+    content.setContainer(container)
+    val storedContent = contentRepository.save(content)
+    container.setContent(Collections.singleton(storedContent))
+//
+    storedContent
+  }
+
 }

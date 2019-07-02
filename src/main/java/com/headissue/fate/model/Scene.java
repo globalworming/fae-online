@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Scene extends AuditModel implements IsContent, HasName, IsContainer, HasCharacters, HasAspects {
+public class Scene extends AuditModel implements IsContent, HasName, HasCharacters, HasAspects {
 
   private String name;
 

@@ -1,118 +1,110 @@
 package com.headissue.fate.service;
 
-import com.headissue.fate.model.Aspect;
 import com.headissue.fate.model.Campaign;
-import com.headissue.fate.model.Actor;
-import com.headissue.fate.model.HasAspects;
-import com.headissue.fate.model.HasCharacters;
-import com.headissue.fate.model.IsContent;
-import com.headissue.fate.model.Mook;
-import com.headissue.fate.model.World;
-import com.headissue.fate.service.api.FateService;
+import net.thucydides.core.annotations.Pending;
 import org.junit.Before;
 import org.junit.Test;
-import scala.collection.mutable.Buffer;
 import screenplay.IntegrationTestBase;
+import screenplay.actions.Add;
+import screenplay.actions.CreateCharacter;
+import screenplay.actions.CreateWorld;
+import screenplay.actions.UpdateWorldDescription;
+import screenplay.questions.WorldInformation;
 
-import java.util.List;
 
-
+import static net.serenitybdd.screenplay.GivenWhenThen.givenThat;
+import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
+import static net.serenitybdd.screenplay.GivenWhenThen.then;
 import static org.assertj.core.api.Assertions.assertThat;
-import static scala.jdk.CollectionConverters.BufferHasAsJava;
 
 
-public class ServiceTest extends IntegrationTestBase implements FateService {
+public class ServiceTest extends IntegrationTestBase {
   
-  String name;
+  private String worldName;
 
   @Override
   @Before
   public void setUp() {
     super.setUp();
-    name = randomName();
+    worldName = randomName();
   }
 
-
-  // FIXME verscreenplay
   @Test
-  public void enterWorld() {
-    World enteredWorld = enterWorld(name);
-    assertThat(enteredWorld.getId()).isNotNull();
-    assertThat(enteredWorld.getName()).isEqualTo(name);
-  }
-
-  @Override
-  public World enterWorld(String worldName) {
-    return fateService.enterWorld(worldName);
+  public void createWorld() {
+    gameMaster.attemptsTo(CreateWorld.withName(worldName));
+    then(gameMaster).should(seeThat("worldName is equal",
+        WorldInformation.forWorld(worldName),
+        t -> t.getName().equals(worldName)
+    ));
   }
 
   @Test
   public void updateWorldDescription() {
-    World updatedWorld = updateWorldDescription(enterWorld(name), "describe " + name);
-    assertThat(updatedWorld.getDescription()).isEqualTo("describe " + name);
-    assertThat(enterWorld(name).getDescription()).isEqualTo("describe " + name);
-  }
 
-  @Override
-  public World updateWorldDescription(World world, String newDescription) {
-    return fateService.updateWorldDescription(world, newDescription);
-  }
+    gameMaster.wasAbleTo(CreateWorld.withName(worldName));
+    then(gameMaster).should(seeThat("world has no description",
+        WorldInformation.forWorld(worldName),
+        t -> t.getDescription() == null
+    ));
 
-  @Test
-  public void addCampaignToWorld() {
-    World enteredWorld = enterWorld(name);
-    Campaign campaign = new Campaign();
-    campaign.setName(name);
-    campaign.setContainer(enteredWorld);
-    campaign = (Campaign) addContent(campaign);
-    assertThat(campaign).isNotNull();
-    assertThat(campaign.getName()).isEqualTo(name);
-    assertThat(campaign.getContainer().getId()).isEqualTo(enteredWorld.getId());
-  }
-
-  @Override
-  public IsContent addContent(IsContent content) {
-    return fateService.addContent(content);
+    gameMaster.attemptsTo(UpdateWorldDescription.of(worldName).to("describe " + worldName));
+    then(gameMaster).should(seeThat("description updated",
+        WorldInformation.forWorld(worldName),
+        t -> t.getDescription().equals("describe " + worldName)
+    ));
   }
 
   @Test
-  public void createCharacterTest() {
-    assertThat(createCharacter().getId()).isNotNull();
-  }
+  public void whenAddingCampaign() {
 
-  @Override
-  public Actor createCharacter() {
-    return fateService.createCharacter();
+    gameMaster.wasAbleTo(CreateWorld.withName(worldName));
+    gameMaster.attemptsTo(Add.content(new Campaign()).to(worldName));
+
+    then(gameMaster).should(seeThat("world has campaign",
+        WorldInformation.forWorld(worldName),
+        t -> t.getContent() != null && !t.getContent().isEmpty()
+    ));
   }
 
   @Test
-  public void addCharacterToWorld() {
-    World enteredWorld = enterWorld(name);
-    assertThat(asJava(getCharacters(enteredWorld))).size().isEqualTo(0);
+  public void whenCreatingActor() {
+    gameMaster.wasAbleTo(CreateWorld
+        .withName(worldName)
+        .withCampaign(new Campaign()));
 
-    Actor actor = createCharacter();
-    addCharacterTo(enteredWorld, actor);
+    gameMaster.attemptsTo(CreateCharacter.forWorld(worldName));
 
-    List<Actor> actors = asJava(getCharacters(enteredWorld));
-    assertThat(actors).containsOnly(actor);
+    then(gameMaster).should(seeThat("world has a actor",
+        WorldInformation.forWorld(worldName),
+        t -> t.getActors() != null && !t.getContent().isEmpty()
+    ));
   }
+
+  @Test
+  @Pending
+  public void updateCharacter() {
+
+  }
+
+/*
 
   @Test
   public void updateCharacter() {
     Actor actor = createCharacter();
-    addCharacterTo(enterWorld(name), actor);
-    actor.setName(name);
+    World world = getWorldInfo(worldName);
+    addCharacterTo(world, actor);
+    actor.setName(worldName);
     actor.setStress(3);
-    actor.setDilemma(createAspect());
-    actor.setHighConcept(createAspect());
+    actor.setDilemma(new Aspect());
+    actor.setHighConcept(new Aspect());
     actor.setEdge(2);
     actor.setRefresh(1);
-    actor.setStunts(name + "stunts");
+    actor.setStunts(worldName + "stunts");
     updateCharacter(actor);
 
-    List<Actor> actors = asJava(getCharacters(enterWorld(name)));
+    List<Actor> actors = asJava(getCharacters(world));
     Actor storedActor = actors.get(0);
-    assertThat(storedActor.getName()).isEqualTo(name);
+    assertThat(storedActor.getName()).isEqualTo(worldName);
     assertThat(storedActor.getStress()).isEqualTo(3);
     assertThat(storedActor.getEdge()).isEqualTo(2);
     assertThat(storedActor.getRefresh()).isEqualTo(1);
@@ -120,53 +112,32 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
     assertThat(storedActor.getHighConcept()).isNotNull();
   }
 
-  @Override
-  public Actor updateCharacter(Actor actor) {
-    return fateService.updateCharacter(actor);
-  }
-
   private List asJava(Buffer<?> buffer) {
     return BufferHasAsJava(buffer).asJava();
   }
 
-  @Override
-  public Actor addCharacterTo(HasCharacters hasCharacters, Actor actor) {
-    return fateService.addCharacterTo(hasCharacters, actor);
-  }
-
   @Test
   public void getCharacters() {
-    World world = enterWorld(name);
+    World world = getWorldInfo(worldName);
     addCharacterTo(world, createCharacter());
 
     List<Actor> actors = asJava(getCharacters(world));
     assertThat(actors).size().isEqualTo(1);
   }
 
-  @Override
-  public Buffer<Actor> getCharacters(HasCharacters hasCharacters) {
-    return fateService.getCharacters(hasCharacters);
-  }
-
-  @Override
-  public Aspect createAspect() {
-    return fateService.createAspect();
-  }
-
   @Test
   public void addAspectToWorld() {
-    World enteredWorld = enterWorld(name);
+    World enteredWorld = getWorldInfo(worldName);
     assertThat(asJava(getAspects(enteredWorld))).size().isEqualTo(0);
 
 
-    Aspect aspect = createAspect();
-    aspect.setName(name);
-    updateAspect(aspect);
+    Aspect aspect = new Aspect();
+    aspect.setName(worldName);
     addAspectTo(enteredWorld, aspect);
 
     assertThat(asJava(getAspects(enteredWorld))).size().isEqualTo(1);
     Aspect storedAspect = (Aspect) asJava(getAspects(enteredWorld)).get(0);
-    assertThat(storedAspect.getName()).isEqualTo(name);
+    assertThat(storedAspect.getName()).isEqualTo(worldName);
   }
 
 
@@ -177,7 +148,7 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
 
   @Test
   public void removeAspect() {
-    World enteredWorld = enterWorld(name);
+    World enteredWorld = getWorldInfo(worldName);
 
     Aspect aspect = new Aspect();
     addAspectTo(enteredWorld, aspect);
@@ -188,26 +159,22 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
   }
 
 
-  @Override
-  public Aspect removeAspectFrom(HasAspects hasAspects, Aspect aspect) {
-    return fateService.removeAspectFrom(hasAspects, aspect);
-  }
-
-  @Override
-  public Aspect addAspectTo(HasAspects hasAspects, Aspect aspect) {
-    return fateService.addAspectTo(hasAspects, aspect);
-  }
-
   @Test
   public void updateAspect() {
-    Aspect aspect = createAspect();
-    aspect.setName(name);
-    updateAspect(aspect);
-    World world = enterWorld(name);
+    Aspect aspect = new Aspect();
+    aspect.setName(worldName);
+    World world = getWorldInfo(worldName);
     addAspectTo(world, aspect);
 
     Aspect storedAspect = (Aspect) asJava(getAspects(world)).get(0);
-    assertThat(storedAspect.getName()).isEqualTo(name);
+    assertThat(storedAspect.getName()).isEqualTo(worldName);
+
+    storedAspect.setName("updated " + worldName);
+    updateAspect(storedAspect);
+
+    Aspect storedUpdatedAspect = (Aspect) asJava(getAspects(world)).get(0);
+    assertThat(storedUpdatedAspect.getName()).isEqualTo("updated " + worldName);
+
   }
 
   @Override
@@ -218,21 +185,15 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
   @Test
   public void changeAspectToCharacter() {
     
-    World enteredWorld = enterWorld(name);
+    World enteredWorld = getWorldInfo(worldName);
     assertThat(asJava(getCharacters(enteredWorld))).size().isEqualTo(0);
 
-    Aspect aspect = createAspect();
-    addAspectTo(enteredWorld, aspect);
+    Aspect aspect = addAspectTo(enteredWorld, new Aspect());
 
     changeAspectToCharacter(aspect, enteredWorld, enteredWorld);
     assertThat(asJava(getCharacters(enteredWorld))).size().isEqualTo(1);
 
     assertThat(asJava(getAspects(enteredWorld))).size().isEqualTo(0);
-  }
-
-  @Override
-  public Actor changeAspectToCharacter(Aspect aspect, HasAspects hasAspects, HasCharacters hasCharacters) {
-    return fateService.changeAspectToCharacter(aspect, hasAspects, hasCharacters);
   }
 
   @Test
@@ -243,21 +204,16 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
     assertThat(asJava(getMooks(actor))).size().isEqualTo(1);
   }
 
-  @Override
-  public Mook createMook(long owningCharacterId) {
-    return fateService.createMook(owningCharacterId);
-  }
-
   @Test
   public void updateMookTest() {
     Actor actor = createCharacter();
     Mook mook = createMook(actor.getId());
-    mook.setName("mook " + name);
+    mook.setName("mook " + worldName);
     updateMook(mook);
 
     List<Mook> mooks = asJava(getMooks(actor));
     assertThat(mooks).size().isEqualTo(1);
-    assertThat(mooks.get(0).getName()).isEqualTo("mook " + name);
+    assertThat(mooks.get(0).getName()).isEqualTo("mook " + worldName);
   }
 
   @Override
@@ -267,7 +223,7 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
 
   @Test
   public void getMooks() {
-    World world = enterWorld(name);
+    World world = getWorldInfo(worldName);
     Actor actor = createCharacter();
     addCharacterTo(world, actor);
     createMook(actor.getId());
@@ -282,5 +238,5 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
   public Buffer<Mook> getMooks(Actor actor) {
     return fateService.getMooks(actor);
   }
-
+*/
 }

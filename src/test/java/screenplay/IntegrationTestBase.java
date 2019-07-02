@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.transaction.annotation.Transactional;
 import screenplay.abilities.SendHttpRequests;
+import screenplay.abilities.UseTheService;
 
 import java.util.UUID;
 
@@ -28,8 +29,11 @@ public abstract class IntegrationTestBase {
   @Rule
   public SpringIntegrationMethodRule springIntegrationMethodRule = new SpringIntegrationMethodRule();
 
-  private Cast cast = Cast.whereEveryoneCan(new SendHttpRequests());
-  protected Actor newUser = cast.actorNamed("new user");
+  protected Actor gameMaster;
+
+
+  private Cast httpCast = Cast.whereEveryoneCan(new SendHttpRequests());
+  protected Actor newUser = httpCast.actorNamed("new user");
 
   @LocalServerPort
   private int port;
@@ -37,6 +41,8 @@ public abstract class IntegrationTestBase {
   @Before
   public void setUp() {
     newUser.remember("PORT", port);
+    Cast cast = Cast.whereEveryoneCan(new UseTheService(fateService));
+    gameMaster = cast.actorNamed("Game Master");
   }
 
   protected final String randomName() {

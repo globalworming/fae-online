@@ -32,12 +32,6 @@ public class ObjectMapperTest {
   }
 
   @Test
-  public void mapWorld0() throws Exception {
-    World one = worldRepository.getOne(0L);
-    new ObjectMapper().writeValueAsString(one);
-  }
-
-  @Test
   public void mapMessage() throws Exception {
     Message message = new Message();
     String s = new ObjectMapper().writeValueAsString(message);

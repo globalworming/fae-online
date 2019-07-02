@@ -1,6 +1,6 @@
 package com.headissue.fate.service.api
 
-import com.headissue.fate.model.{Aspect, Actor, HasAspects, HasCharacters, IsContent, Mook, World}
+import com.headissue.fate.model.{Actor, Aspect, HasAspects, HasCharacters, IsContainer, IsContent, Mook, World}
 
 import scala.collection.mutable
 
@@ -19,32 +19,39 @@ trait FateService {
   // def kickPlayerFromWorld(player: Player, world: World): Player
   // def setMaxPlayers(world: World): World
   // def resolveScene(scene: Scene): Scene
-
+  // def invitePlayerTo(campaign: Campaign, email: String):
   /**
-    * looks up world by name or creates a new one and returns it
+    * enter and exit scenes
     */
-  def enterWorld(name: String): World
+  // def enter(hasCharacter: hasCharacter, character: Character):
+
+  def createWorld(name: String): World
+
+  def getWorldInfo(name: String): World
+
+  def setWorldInfo(world: World): World
 
   def updateWorldDescription(world: World, newDescription: String): World
 
   /**
-    * adds scenes, scenarios etc
+    * adds scenes, scenarios etc one at a time
     */
   def addContent(content: IsContent): IsContent
 
   def createCharacter: Actor
 
+  def createContent(isContent: IsContent, isContainer: IsContainer): IsContent
+
   def updateCharacter(character: Actor): Actor
 
-  def addCharacterTo(hasCharacters: HasCharacters, character: Actor): Actor
+  def addRoleTo(hasCharacters: HasCharacters, character: Actor): Actor
 
   def getCharacters(hasCharacters: HasCharacters): mutable.Buffer[Actor]
 
-  // FIXME aspects cant be without a world or character
-  def createAspect: Aspect
-
-  // wird createAspect und da steht der zusammenhang drin
-  def addAspectTo(hasAspects: HasAspects, aspect: Aspect): Aspect
+  /**
+    * create a new aspect and link it
+    */
+  def addAspectTo(hasAspects: HasAspects, newAspect: Aspect): Aspect
 
   def updateAspect(aspect: Aspect): Aspect
 

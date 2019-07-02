@@ -18,7 +18,7 @@ let reducer = (state = initialState, {type, payload}) => {
     case SET_WORLD: {
       let newState = Object.assign({}, state);
       // preserve campaigns
-      // FIXME shouldn't this be case UPDATE_WORLD then?
+      // shouldn't this be case UPDATE_WORLD then?
       if (newState.world) {
         payload.campaigns = newState.world.campaigns;
       }

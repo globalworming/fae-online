@@ -10,7 +10,7 @@ class FateServiceController(fateService: FateService) {
 
   @GetMapping(path = Array("/service/enterWorld/{name}"))
   def handleRequest(@PathVariable name: String): World = {
-    fateService.enterWorld(name)
+    fateService.getWorldInfo(name)
   }
 
 

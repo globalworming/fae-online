@@ -12,15 +12,27 @@ import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties(
-    value = {"characters", "hibernateLazyInitializer", "handler"}
+//    value = {"characters", "hibernateLazyInitializer", "handler"}
 )
+
 public class World extends AuditModel implements IsContainer, HasName, HasCharacters, HasAspects {
 
-   private String description;
-   private String name;
 
-   @OneToOne
-   private Player gameMaster;
+  public World() {
+  }
+
+  public World(String name) {
+    this.name = name;
+  }
+
+  private String description;
+  private String name;
+
+  @OneToMany
+  private Set<Campaign> content;
+
+  @OneToOne
+  private Player gameMaster;
 
   @OneToMany
   private Set<Actor> actors = new HashSet<>();
@@ -29,54 +41,54 @@ public class World extends AuditModel implements IsContainer, HasName, HasCharac
   private Set<Aspect> aspects = new HashSet<>();
 
   public String getDescription() {
-        return description;
-    }
+    return description;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    @Override
-    public String getName() {
-        return name;
-    }
+  @Override
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
+  @Override
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public Player getGameMaster() {
-        return gameMaster;
-    }
+  public Player getGameMaster() {
+    return gameMaster;
+  }
 
-    public void setGameMaster(Player gameMaster) {
-        this.gameMaster = gameMaster;
-    }
+  public void setGameMaster(Player gameMaster) {
+    this.gameMaster = gameMaster;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        World world = (World) o;
-        return Objects.equals(name, world.name) &&
-            Objects.equals(description, world.description) &&
-            Objects.equals(gameMaster, world.gameMaster);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    World world = (World) o;
+    return Objects.equals(name, world.name) &&
+        Objects.equals(description, world.description) &&
+        Objects.equals(gameMaster, world.gameMaster);
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, description, gameMaster);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, description, gameMaster);
+  }
 
-    @Override
-    public String toString() {
-        return "World{" +
-            "name='" + name + '\'' +
-            ", description='" + description + '\'' +
-            ", gameMaster=" + gameMaster +
-            '}';
-    }
+  @Override
+  public String toString() {
+    return "World{" +
+        "name='" + name + '\'' +
+        ", description='" + description + '\'' +
+        ", gameMaster=" + gameMaster +
+        '}';
+  }
 
   @Override
   public Set<Actor> getActors() {
@@ -96,5 +108,15 @@ public class World extends AuditModel implements IsContainer, HasName, HasCharac
   @Override
   public void setAspects(Set<Aspect> aspects) {
     this.aspects = aspects;
+  }
+
+
+  @Override
+  public Set<Campaign> getContent() {
+    return content;
+  }
+
+  public void setContent(Set<? extends IsContent> content) {
+    this.content = (Set<Campaign>) content;
   }
 }

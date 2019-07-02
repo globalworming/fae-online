@@ -30,7 +30,7 @@ public class WorldController {
   @GetMapping("/world/byName/{worldName}")
   public World getWorldByName(@PathVariable String worldName) {
     World world = worldRepository.findByName(worldName);
-    if (world == null) {
+    /*if (world == null) {
       World newWorld = new World();
       newWorld.setName(worldName);
       Player gameMaster = new Player();
@@ -38,7 +38,7 @@ public class WorldController {
       playerRepository.save(gameMaster);
       newWorld.setGameMaster(gameMaster);
       world = worldRepository.save(newWorld);
-    }
+    }*/
     return world;
   }
 

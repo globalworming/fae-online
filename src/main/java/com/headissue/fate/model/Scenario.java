@@ -20,6 +20,9 @@ public class Scenario extends AuditModel implements IsContent, HasName, IsContai
   @OneToMany
   private Set<Aspect> aspects = new HashSet<>();
 
+  @OneToMany
+  private Set<Scene> content = new HashSet<>();
+
   @Override
   public String getName() {
     return name;
@@ -58,5 +61,15 @@ public class Scenario extends AuditModel implements IsContent, HasName, IsContai
   @Override
   public void setAspects(Set<Aspect> aspects) {
     this.aspects = aspects;
+  }
+
+  @Override
+  public Set<Scene> getContent() {
+    return content;
+  }
+
+  @Override
+  public void setContent(Set<? extends IsContent> content) {
+    this.content = (Set<Scene>) content;
   }
 }
