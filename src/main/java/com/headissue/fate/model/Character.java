@@ -170,7 +170,7 @@ public class Character extends AuditModel implements HasAspects {
     }
 
     public void update(Character character) {
-        this.name = character.name;
+        //this.name = character.name;
     }
 
 }

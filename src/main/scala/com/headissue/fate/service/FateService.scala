@@ -3,7 +3,7 @@ package com.headissue.fate.service
 import java.util
 
 import com.headissue.fate.controller.{MessagesController, WorldController}
-import com.headissue.fate.model.{Aspect, Campaign, Character, HasAspects, HasCharacters, IsContent, Scenario, Scene, World}
+import com.headissue.fate.model.{Aspect, Campaign, Character, HasAspects, HasCharacters, IsContent, Mook, Scenario, Scene, World}
 import com.headissue.fate.repository._
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Service
@@ -147,9 +147,7 @@ class FateService(
   }
 
   override def updateCharacter(character: Character): Character = {
-    val storedCharacter = characterRepository.getOne(character.getId)
-    storedCharacter.update(character)
-    characterRepository.save(storedCharacter)
+    characterRepository.save(character)
   }
 
   override def updateAspect(aspect: Aspect): Aspect = {
@@ -160,5 +158,23 @@ class FateService(
 
   override def createAspect: Aspect = {
     aspectRepository.save(new Aspect())
+  }
+
+  def createAspect(name: String): Aspect = {
+    aspectRepository.save(new Aspect(name))
+  }
+
+  override def createMook(ownerId: Long): Mook = {
+    val mook = new Mook()
+    mook.setBelongingTo(characterRepository.getOne(ownerId))
+    mookRepository.save(mook)
+  }
+
+  override def getMooks(character: Character): mutable.Buffer[Mook] = {
+    new util.ArrayList[Mook](mookRepository.findByBelongingTo(character)).asScala
+  }
+
+  override def updateMook(mook: Mook): Mook = {
+    mookRepository.save(mook)
   }
 }

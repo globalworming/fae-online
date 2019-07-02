@@ -7,6 +7,13 @@ import java.util.Objects;
 @Entity
 public class Aspect extends AuditModel implements HasName {
 
+    public Aspect() {
+    }
+
+    public Aspect(String name) {
+        this.name = name;
+    }
+
     @OneToOne
     private Character discoveredBy;
     

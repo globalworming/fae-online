@@ -1,6 +1,6 @@
 package com.headissue.fate.service.api
 
-import com.headissue.fate.model.{Aspect, Character, HasAspects, HasCharacters, IsContent, World}
+import com.headissue.fate.model.{Aspect, Character, HasAspects, HasCharacters, IsContent, Mook, World}
 
 import scala.collection.mutable
 
@@ -19,6 +19,7 @@ trait FateService {
   // def changeWorldName(world: World): World
   // def kickPlayerFromWorld(player: Player, world: World): Player
   // def setMaxPlayers(world: World): World
+  // def resolveScene(scene: Scene): Scene
 
 
   def updateWorldDescription(world: World, newDescription: String): World
@@ -45,4 +46,9 @@ trait FateService {
 
   def changeAspectToCharacter(aspect: Aspect, hasAspects: HasAspects, hasCharacters: HasCharacters): Character
 
+  def createMook(owningCharacterId: Long): Mook
+
+  def updateMook(mook: Mook): Mook
+
+  def getMooks(character: Character): mutable.Buffer[Mook]
 }
