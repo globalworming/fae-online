@@ -24,8 +24,11 @@ public class CampaignController {
   @Autowired
   private CampaignRepository campaignRepository;
 
+  @Autowired
+  private WorldRepository worldRepository;
+
   @GetMapping("/world/{worldId}/campaigns")
   public List<Campaign> getCampaigns (@PathVariable long worldId) {
-    return campaignRepository.findByWorldId(worldId);
+    return campaignRepository.findByContainer(worldRepository.getOne(worldId));
   }
 }

@@ -14,6 +14,8 @@ import org.junit.runners.model.Statement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.logging.LogEntry;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -81,7 +83,11 @@ public abstract class E2ETestBase {
               .collect(Collectors.joining())
           ));
           if (gmLogEntries.size() + pcLogEntries.size() > 0) {
-            fail("there should be no error logs in the console");
+            String collect = Arrays.asList(gmLogEntries, pcLogEntries).stream().flatMap(Collection::stream)
+                .map(entry -> entry.toString() + "\n")
+                .collect(Collectors.joining());
+
+            fail("there should be no error logs in the console but was: \n" + collect);
           }
         }
       };

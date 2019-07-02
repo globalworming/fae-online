@@ -22,17 +22,15 @@ class App extends Component {
   enterWorld = world => {
     fetch("/service/enterWorld/" + world)
         .then(response => {console.log("resp", response); return response.json()})
-        .then(world => this.props.setWorld(world));
-  };
-
-  fetchWorld = id => {
-    console.log("start fetch world");
-    fetch("/world/" + id).then(response => response.json())
-        .then(world => {
-          this.props.setWorld(world);
-          return world.id;})
+        .then(world => { this.props.setWorld(world); return world.id})
         .then(this.fetchCampaigns)
         .finally(() => this.setState({fetched: true}))
+  };
+
+  fetchWorld = world => {
+    fetch("/world/" + world)
+        .then(response => {console.log("resp", response); return response.json()})
+        .then(world => { this.props.setWorld(world); return world.id})
   };
 
   fetchCampaigns = worldId => {
@@ -100,10 +98,9 @@ class App extends Component {
                     ref={ (client) => { this.props.setSockJsClient(client) }}/>
 
       {this.state.fetched && <World world={props.world}/>}
-      {//<Chat/>
-      }
+      <Chat/>
+
     </div>
-        ;
   }
 }
 

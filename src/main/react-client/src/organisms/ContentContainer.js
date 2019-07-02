@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Scenarios from "./Scenarios";
 
 class ContentContainer extends Component {
 
@@ -11,7 +10,7 @@ class ContentContainer extends Component {
     console.log("render content container", "props", this.props);
     const props = this.props;
     const root = props.root;
-    let contentStack = props.contentStack;
+    let contentStack = Object.assign([], props.contentStack);
     const contentName = contentStack.shift();
     const contents = root[contentName];
 
@@ -20,17 +19,22 @@ class ContentContainer extends Component {
       return null;
     }
 
+    let tab = '=='.repeat(2 - contentStack.length);
+    tab = tab + "=>";
+
     return <React.Fragment>
       <section className={contentName}>
-        <h2>{contentName}</h2>
         <nav>
           {contents.map((e) =>
-            <p key={e.id} //onClick={() => this.setFocus(campaign.id)}>{campaign.name}</p>
-            >{e.name}</p>
+            <div key={props.containerKey + " " + e.id}>
+                <p>{tab} {e.name} - one of the {contentName}</p>
+                {console.log("render " + contentName, e)}
+                <ContentContainer containerKey={props.containerKey + " " + e.id} root={e} contentStack={contentStack}/>
+              </div>
           )}
+
         </nav>
       </section>
-      <ContentContainer root={contents[0]} contentStack={contentStack}/>
     </React.Fragment>
 
   }

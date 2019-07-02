@@ -20,6 +20,6 @@ public class UpdatesWorldDescription implements Performable{
   @Override
   public <T extends Actor> void performAs(T actor) {
     actor.attemptsTo(Click.on(".e2e-world-description .e2e-edit"));
-    actor.attemptsTo(Enter.theValue(text).into(".e2e-world-description .e2e-input").thenHit(Keys.ENTER));
+    actor.attemptsTo(Enter.theValue(text).into(".e2e-world-description .e2e-input").thenHit(Keys.TAB, Keys.ENTER));
   }
 }

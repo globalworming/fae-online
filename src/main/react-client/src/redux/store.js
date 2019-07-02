@@ -35,7 +35,7 @@ let reducer = (state = initialState, {type, payload}) => {
 
     case SET_SCENARIOS: {
       let newState = Object.assign({}, state);
-      newState.world.campaigns.find(campaign => campaign.id === payload[0].campaign.id)
+      newState.world.campaigns.find(campaign => campaign.id === payload[0].container.id)
           .scenarios = payload;
       console.log("reduced to", newState);
       return newState;
@@ -44,7 +44,7 @@ let reducer = (state = initialState, {type, payload}) => {
     case SET_SCENES: {
       let newState = Object.assign({}, state);
       newState.world.campaigns.flatMap(campaign => campaign.scenarios)
-          .find(scenario => scenario.id === payload[0].scenario.id)
+          .find(scenario => scenario.id === payload[0].container.id)
           .scenes = payload;
       console.log("reduced to", newState);
       return newState;

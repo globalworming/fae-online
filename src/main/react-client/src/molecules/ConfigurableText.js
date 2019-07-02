@@ -42,9 +42,9 @@ class ConfigurableText extends Component {
   }
 
   render() {
-    return <div className={this.props.className} style={{whiteSpace: 'pre-line'}}>
+    return <div className={this.props.className}>
       <h3>world description</h3>
-      { this.state.displayed && this.props.text }
+      { this.state.displayed && <p style={{whiteSpace: 'pre-line'}}>{this.props.text}</p>}
       { this.state.editable && <TextForm text={this.props.text} type="textarea"
                                          onSubmit={text => this.onSubmit(text)}
                                          onCancel={text => this.onCancel(text)} />}
