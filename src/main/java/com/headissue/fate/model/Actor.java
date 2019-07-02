@@ -9,8 +9,9 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class Character extends AuditModel implements HasAspects {
-    
+public class Actor extends AuditModel implements HasAspects {
+
+    // FIXME all to aspects
     private String name;
 
     @OneToOne
@@ -30,7 +31,6 @@ public class Character extends AuditModel implements HasAspects {
     private int refresh;
 
     @OneToOne
-    //@JoinColumn(name = "player_id")
     private Player owner;
 
     private int stress;
@@ -135,17 +135,17 @@ public class Character extends AuditModel implements HasAspects {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Character character = (Character) o;
-        return edge == character.edge &&
-            refresh == character.refresh &&
-            stress == character.stress &&
-            Objects.equals(name, character.name) &&
-            Objects.equals(highConcept, character.highConcept) &&
-            Objects.equals(dilemma, character.dilemma) &&
-            Objects.equals(approaches, character.approaches) &&
-            Objects.equals(stunts, character.stunts) &&
-            Objects.equals(owner, character.owner) &&
-            Objects.equals(consequences, character.consequences);
+        Actor actor = (Actor) o;
+        return edge == actor.edge &&
+            refresh == actor.refresh &&
+            stress == actor.stress &&
+            Objects.equals(name, actor.name) &&
+            Objects.equals(highConcept, actor.highConcept) &&
+            Objects.equals(dilemma, actor.dilemma) &&
+            Objects.equals(approaches, actor.approaches) &&
+            Objects.equals(stunts, actor.stunts) &&
+            Objects.equals(owner, actor.owner) &&
+            Objects.equals(consequences, actor.consequences);
     }
 
     @Override
@@ -169,7 +169,7 @@ public class Character extends AuditModel implements HasAspects {
             '}';
     }
 
-    public void update(Character character) {
+    public void update(Actor actor) {
         //this.name = character.name;
     }
 

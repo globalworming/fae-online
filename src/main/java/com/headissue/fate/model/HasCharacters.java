@@ -3,7 +3,7 @@ package com.headissue.fate.model;
 import java.util.Set;
 
 public interface HasCharacters {
-  Set<Character> getCharacters();
+  Set<Actor> getActors();
 
-  void setCharacters(Set<Character> characters);
+  void setActors(Set<Actor> actors);
 }

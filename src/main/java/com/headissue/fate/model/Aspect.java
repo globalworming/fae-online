@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import java.util.Objects;
 
+/**
+ * aspect does not exist without being e.g.  in a {@link World} or attached to a {@link }
+ */
 @Entity
 public class Aspect extends AuditModel implements HasName {
 
@@ -15,13 +18,17 @@ public class Aspect extends AuditModel implements HasName {
     }
 
     @OneToOne
-    private Character discoveredBy;
-    
+    private Actor discoveredBy;
+
     private int freeInvocations;
-    
+
     private boolean isBuff;
 
     private String name;
+
+    // TODO what is an aspect
+    //@OneToOne
+    //private Concept concept;
 
     @Override
     public String getName() {
@@ -33,11 +40,11 @@ public class Aspect extends AuditModel implements HasName {
         this.name = name;
     }
 
-    public Character getDiscoveredBy() {
+    public Actor getDiscoveredBy() {
         return discoveredBy;
     }
 
-    public void setDiscoveredBy(Character discoveredBy) {
+    public void setDiscoveredBy(Actor discoveredBy) {
         this.discoveredBy = discoveredBy;
     }
 
@@ -88,3 +95,5 @@ public class Aspect extends AuditModel implements HasName {
         this.name = aspect.name;
     }
 }
+
+

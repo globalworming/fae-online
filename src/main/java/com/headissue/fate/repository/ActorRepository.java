@@ -1,11 +1,11 @@
 package com.headissue.fate.repository;
 
-import com.headissue.fate.model.Character;
+import com.headissue.fate.model.Actor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CharacterRepository extends JpaRepository<Character, Long> {
+public interface ActorRepository extends JpaRepository<Actor, Long> {
 
 
 }

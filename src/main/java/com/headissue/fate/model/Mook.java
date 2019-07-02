@@ -18,7 +18,7 @@ public class Mook extends AuditModel implements HasAspects{
   private int stress;
 
   @ManyToOne
-  private Character belongingTo;
+  private Actor belongingTo;
 
   @OneToMany
   private Set<Aspect> aspects = new HashSet<>();
@@ -47,11 +47,11 @@ public class Mook extends AuditModel implements HasAspects{
     this.badAt = badAt;
   }
 
-  public Character getBelongingTo() {
+  public Actor getBelongingTo() {
     return belongingTo;
   }
 
-  public void setBelongingTo(Character belongingTo) {
+  public void setBelongingTo(Actor belongingTo) {
     this.belongingTo = belongingTo;
   }
 

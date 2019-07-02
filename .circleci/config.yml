@@ -60,7 +60,9 @@ jobs:
           background: true
 
       # run tests!
-      - run: mvn clean verify -P it -Dproperties=`pwd`/serenity.remote.properties
+      - run: mvn clean test -P it -Dproperties=`pwd`/serenity.remote.properties
+      # disable e2e tests
+      #- run: mvn clean verify -P it -Dproperties=`pwd`/serenity.remote.properties
 
       - run:
           name: Save test results

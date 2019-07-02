@@ -15,7 +15,7 @@ public class Scene extends AuditModel implements IsContent, HasName, IsContainer
   @OneToOne
   private Scenario scenario;
   @OneToMany
-  private Set<Character> characters = new HashSet<>();
+  private Set<Actor> actors = new HashSet<>();
   @OneToMany
   private Set<Aspect> aspects = new HashSet<>();
 
@@ -38,13 +38,13 @@ public class Scene extends AuditModel implements IsContent, HasName, IsContainer
   }
 
   @Override
-  public Set<Character> getCharacters() {
-    return characters;
+  public Set<Actor> getActors() {
+    return actors;
   }
 
   @Override
-  public void setCharacters(Set<Character> characters) {
-    this.characters = characters;
+  public void setActors(Set<Actor> actors) {
+    this.actors = actors;
   }
 
   @Override

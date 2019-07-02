@@ -23,7 +23,7 @@ public class World extends AuditModel implements IsContainer, HasName, HasCharac
    private Player gameMaster;
 
   @OneToMany
-  private Set<Character> characters = new HashSet<>();
+  private Set<Actor> actors = new HashSet<>();
 
   @OneToMany
   private Set<Aspect> aspects = new HashSet<>();
@@ -79,13 +79,13 @@ public class World extends AuditModel implements IsContainer, HasName, HasCharac
     }
 
   @Override
-  public Set<Character> getCharacters() {
-    return characters;
+  public Set<Actor> getActors() {
+    return actors;
   }
 
   @Override
-  public void setCharacters(Set<Character> characters) {
-    this.characters = characters;
+  public void setActors(Set<Actor> actors) {
+    this.actors = actors;
   }
 
   @Override

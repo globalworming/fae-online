@@ -2,7 +2,7 @@ package com.headissue.fate.service;
 
 import com.headissue.fate.model.Aspect;
 import com.headissue.fate.model.Campaign;
-import com.headissue.fate.model.Character;
+import com.headissue.fate.model.Actor;
 import com.headissue.fate.model.HasAspects;
 import com.headissue.fate.model.HasCharacters;
 import com.headissue.fate.model.IsContent;
@@ -32,6 +32,8 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
     name = randomName();
   }
 
+
+  // FIXME verscreenplay
   @Test
   public void enterWorld() {
     World enteredWorld = enterWorld(name);
@@ -79,7 +81,7 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
   }
 
   @Override
-  public Character createCharacter() {
+  public Actor createCharacter() {
     return fateService.createCharacter();
   }
 
@@ -88,39 +90,39 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
     World enteredWorld = enterWorld(name);
     assertThat(asJava(getCharacters(enteredWorld))).size().isEqualTo(0);
 
-    Character character = createCharacter();
-    addCharacterTo(enteredWorld, character);
+    Actor actor = createCharacter();
+    addCharacterTo(enteredWorld, actor);
 
-    List<Character> characters = asJava(getCharacters(enteredWorld));
-    assertThat(characters).containsOnly(character);
+    List<Actor> actors = asJava(getCharacters(enteredWorld));
+    assertThat(actors).containsOnly(actor);
   }
 
   @Test
   public void updateCharacter() {
-    Character character = createCharacter();
-    addCharacterTo(enterWorld(name), character);
-    character.setName(name);
-    character.setStress(3);
-    character.setDilemma(createAspect());
-    character.setHighConcept(createAspect());
-    character.setEdge(2);
-    character.setRefresh(1);
-    character.setStunts(name + "stunts");
-    updateCharacter(character);
+    Actor actor = createCharacter();
+    addCharacterTo(enterWorld(name), actor);
+    actor.setName(name);
+    actor.setStress(3);
+    actor.setDilemma(createAspect());
+    actor.setHighConcept(createAspect());
+    actor.setEdge(2);
+    actor.setRefresh(1);
+    actor.setStunts(name + "stunts");
+    updateCharacter(actor);
 
-    List<Character> characters = asJava(getCharacters(enterWorld(name)));
-    Character storedCharacter = characters.get(0);
-    assertThat(storedCharacter.getName()).isEqualTo(name);
-    assertThat(storedCharacter.getStress()).isEqualTo(3);
-    assertThat(storedCharacter.getEdge()).isEqualTo(2);
-    assertThat(storedCharacter.getRefresh()).isEqualTo(1);
-    assertThat(storedCharacter.getDilemma()).isNotNull();
-    assertThat(storedCharacter.getHighConcept()).isNotNull();
+    List<Actor> actors = asJava(getCharacters(enterWorld(name)));
+    Actor storedActor = actors.get(0);
+    assertThat(storedActor.getName()).isEqualTo(name);
+    assertThat(storedActor.getStress()).isEqualTo(3);
+    assertThat(storedActor.getEdge()).isEqualTo(2);
+    assertThat(storedActor.getRefresh()).isEqualTo(1);
+    assertThat(storedActor.getDilemma()).isNotNull();
+    assertThat(storedActor.getHighConcept()).isNotNull();
   }
 
   @Override
-  public Character updateCharacter(Character character) {
-    return fateService.updateCharacter(character);
+  public Actor updateCharacter(Actor actor) {
+    return fateService.updateCharacter(actor);
   }
 
   private List asJava(Buffer<?> buffer) {
@@ -128,8 +130,8 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
   }
 
   @Override
-  public Character addCharacterTo(HasCharacters hasCharacters, Character character) {
-    return fateService.addCharacterTo(hasCharacters, character);
+  public Actor addCharacterTo(HasCharacters hasCharacters, Actor actor) {
+    return fateService.addCharacterTo(hasCharacters, actor);
   }
 
   @Test
@@ -137,12 +139,12 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
     World world = enterWorld(name);
     addCharacterTo(world, createCharacter());
 
-    List<Character> characters = asJava(getCharacters(world));
-    assertThat(characters).size().isEqualTo(1);
+    List<Actor> actors = asJava(getCharacters(world));
+    assertThat(actors).size().isEqualTo(1);
   }
 
   @Override
-  public Buffer<Character> getCharacters(HasCharacters hasCharacters) {
+  public Buffer<Actor> getCharacters(HasCharacters hasCharacters) {
     return fateService.getCharacters(hasCharacters);
   }
 
@@ -229,16 +231,16 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
   }
 
   @Override
-  public Character changeAspectToCharacter(Aspect aspect, HasAspects hasAspects, HasCharacters hasCharacters) {
+  public Actor changeAspectToCharacter(Aspect aspect, HasAspects hasAspects, HasCharacters hasCharacters) {
     return fateService.changeAspectToCharacter(aspect, hasAspects, hasCharacters);
   }
 
   @Test
   public void createMookTest() {
-    Character character = createCharacter();
-    assertThat(asJava(getMooks(character))).size().isEqualTo(0);
-    createMook(character.getId());
-    assertThat(asJava(getMooks(character))).size().isEqualTo(1);
+    Actor actor = createCharacter();
+    assertThat(asJava(getMooks(actor))).size().isEqualTo(0);
+    createMook(actor.getId());
+    assertThat(asJava(getMooks(actor))).size().isEqualTo(1);
   }
 
   @Override
@@ -248,12 +250,12 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
 
   @Test
   public void updateMookTest() {
-    Character character = createCharacter();
-    Mook mook = createMook(character.getId());
+    Actor actor = createCharacter();
+    Mook mook = createMook(actor.getId());
     mook.setName("mook " + name);
     updateMook(mook);
 
-    List<Mook> mooks = asJava(getMooks(character));
+    List<Mook> mooks = asJava(getMooks(actor));
     assertThat(mooks).size().isEqualTo(1);
     assertThat(mooks.get(0).getName()).isEqualTo("mook " + name);
   }
@@ -266,19 +268,19 @@ public class ServiceTest extends IntegrationTestBase implements FateService {
   @Test
   public void getMooks() {
     World world = enterWorld(name);
-    Character character = createCharacter();
-    addCharacterTo(world, character);
-    createMook(character.getId());
+    Actor actor = createCharacter();
+    addCharacterTo(world, actor);
+    createMook(actor.getId());
 
-    List<Character> characters = asJava(getCharacters(world));
-    assertThat(characters).size().isEqualTo(1);
-    List<Mook> mooks = asJava(getMooks(characters.get(0)));
+    List<Actor> actors = asJava(getCharacters(world));
+    assertThat(actors).size().isEqualTo(1);
+    List<Mook> mooks = asJava(getMooks(actors.get(0)));
     assertThat(mooks).size().isEqualTo(1);
   }
 
   @Override
-  public Buffer<Mook> getMooks(Character character) {
-    return fateService.getMooks(character);
+  public Buffer<Mook> getMooks(Actor actor) {
+    return fateService.getMooks(actor);
   }
 
 }

@@ -3,7 +3,7 @@ package com.headissue.fate.service
 import java.util
 
 import com.headissue.fate.controller.{MessagesController, WorldController}
-import com.headissue.fate.model.{Aspect, Campaign, Character, HasAspects, HasCharacters, IsContent, Mook, Scenario, Scene, World}
+import com.headissue.fate.model.{Aspect, Campaign, Actor, HasAspects, HasCharacters, IsContent, Mook, Scenario, Scene, World}
 import com.headissue.fate.repository._
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Service
@@ -18,7 +18,7 @@ class FateService(
                    campaignRepository: CampaignRepository,
                    scenarioRepository: ScenarioRepository,
                    sceneRepository: SceneRepository,
-                   characterRepository: CharacterRepository,
+                   characterRepository: ActorRepository,
                    aspectRepository: AspectRepository,
                    mookRepository: MookRepository,
                    messagesController: MessagesController
@@ -44,20 +44,20 @@ class FateService(
     }
   }
 
-  override def createCharacter: Character = {
-    characterRepository.save(new Character)
+  override def createCharacter: Actor = {
+    characterRepository.save(new Actor)
   }
 
 
-  def addCharacterTo(hasCharactersId: Long, jpaRepository: JpaRepository[HasCharacters, Long], character: Character): Character = {
+  def addCharacterTo(hasCharactersId: Long, jpaRepository: JpaRepository[HasCharacters, Long], character: Actor): Actor = {
     val hasCharacters = jpaRepository.getOne(hasCharactersId)
-    hasCharacters.getCharacters.add(character)
+    hasCharacters.getActors.add(character)
     characterRepository.save(character)
     jpaRepository.save(hasCharacters)
     character
   }
 
-  override def addCharacterTo(hasCharacters: HasCharacters, character: Character): Character = {
+  override def addCharacterTo(hasCharacters: HasCharacters, character: Actor): Actor = {
     hasCharacters match {
       case world: World => addCharacterTo(world.getId, worldRepository.asInstanceOf[JpaRepository[HasCharacters, Long]], character)
       //case campaign: Campaign => addCharacterToCampaign(campaign, character)
@@ -65,33 +65,33 @@ class FateService(
     character
   }
 
-  def addCharacterToWorld(world: World, character: Character): World = {
+  def addCharacterToWorld(world: World, character: Actor): World = {
     val w = worldRepository.getOne(world.getId)
-    w.getCharacters.add(character)
+    w.getActors.add(character)
     worldRepository.save(w)
   }
-  def addCharacterToCampaign(campaign: Campaign, character: Character): Campaign = {
+  def addCharacterToCampaign(campaign: Campaign, character: Actor): Campaign = {
     val c = campaignRepository.getOne(campaign.getId)
-    c.getCharacters.add(character)
+    c.getActors.add(character)
     campaignRepository.save(c)
   }
 
 
-  override def getCharacters(hasCharacters: HasCharacters): mutable.Buffer[Character] = {
+  override def getCharacters(hasCharacters: HasCharacters): mutable.Buffer[Actor] = {
     hasCharacters match {
       case world: World => getCharacters(world)
       case campaign: Campaign => getCharacters(campaign)
     }
   }
 
-  def getCharacters(campaign: Campaign): mutable.Buffer[Character] = {
-    new util.ArrayList[Character](campaignRepository.getOne(campaign.getId)
-      .getCharacters).asScala
+  def getCharacters(campaign: Campaign): mutable.Buffer[Actor] = {
+    new util.ArrayList[Actor](campaignRepository.getOne(campaign.getId)
+      .getActors).asScala
   }
 
-  def getCharacters(world: World): mutable.Buffer[Character] = {
-    new util.ArrayList[Character](worldRepository.getOne(world.getId)
-      .getCharacters).asScala
+  def getCharacters(world: World): mutable.Buffer[Actor] = {
+    new util.ArrayList[Actor](worldRepository.getOne(world.getId)
+      .getActors).asScala
   }
 
   override def addAspectTo(hasAspects: HasAspects, aspect: Aspect): Aspect = {
@@ -139,14 +139,14 @@ class FateService(
     aspect
   }
 
-  override def changeAspectToCharacter(aspect: Aspect, hasAspects: HasAspects, hasCharacters: HasCharacters): Character = {
-    val character = new Character
+  override def changeAspectToCharacter(aspect: Aspect, hasAspects: HasAspects, hasCharacters: HasCharacters): Actor = {
+    val character = new Actor
     character.setName(aspect.getName)
     removeAspectFrom(hasAspects, aspect)
     addCharacterTo(hasCharacters, character)
   }
 
-  override def updateCharacter(character: Character): Character = {
+  override def updateCharacter(character: Actor): Actor = {
     characterRepository.save(character)
   }
 
@@ -170,7 +170,7 @@ class FateService(
     mookRepository.save(mook)
   }
 
-  override def getMooks(character: Character): mutable.Buffer[Mook] = {
+  override def getMooks(character: Actor): mutable.Buffer[Mook] = {
     new util.ArrayList[Mook](mookRepository.findByBelongingTo(character)).asScala
   }
 
