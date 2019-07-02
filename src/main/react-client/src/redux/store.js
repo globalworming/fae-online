@@ -42,6 +42,7 @@ let reducer = (state = initialState, {type, payload}) => {
     }
 
     case SET_SCENES: {
+      if (!state.world.campaigns) return state;
       let newState = Object.assign({}, state);
       newState.world.campaigns.flatMap(campaign => campaign.scenarios)
           .find(scenario => scenario.id === payload[0].container.id)
